@@ -24,11 +24,11 @@ export function Sidebar({ className, items, ...props }) {
           key={item.href}
           href={item.href}
           className={cn(
-            buttonVariants({ variant: "ghost" }),
-            pathname === item.href
-              ? "bg-muted hover:bg-muted"
-              : "hover:bg-transparent hover:underline",
-            "justify-start"
+            "p-3",
+            {
+                "bg-primary text-white": pathname === item.href, // Change these classes to suit your design
+                "hover:bg-transparent hover:underline": pathname !== item.href,
+            }
           )}
         >
           {item.title}

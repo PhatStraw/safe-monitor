@@ -1,10 +1,10 @@
 "use client";
 import { useSession } from "next-auth/react";
 import React, { useState } from "react";
-import { useRouter } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
+import { UserSettings } from "@/components/user-settings";
 
-export default function Dashboard() {
-  const router = useRouter();
+export default function Page() {
   const [parentEmail, setParentEmail] = useState("");
   const { data: session } = useSession({
     required: true,
@@ -32,11 +32,6 @@ export default function Dashboard() {
   console.log(session);
 
   return (
-    <div className="m-7 font-bold">
-      Welcome! If you haven't already, please navigate to your profile and
-      complete the Parent Email field. Once you hit save, you&apos;ll receive an
-      email notification whenever your content is linked. Thank you for joining
-      us, and we&apos;re excited to have you on board!
-    </div>
+   <UserSettings />
   );
 }
