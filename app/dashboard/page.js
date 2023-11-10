@@ -56,9 +56,9 @@ export default function Dashboard() {
       <Sidebar items={items} />
       <div className="m-7 font-bold">
         Welcome! If you havent already, please navigate to your profile and
-        complete the Parent Email field. Once you hit save, you’ll receive an
-        email notification whenever your content is linked. Thank you for
-        joining us, and we're excited to have you on board!
+        complete the Parent Email field. Once you hit save, you&apos;ll receive
+        an email notification whenever your content is linked. Thank you for
+        joining us, and we&apos;re excited to have you on board!
       </div>
     </div>
   );
