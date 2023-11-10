@@ -1,19 +1,22 @@
-'use client'
 import { Inter } from "next/font/google";
-import { SessionProvider } from "next-auth/react";
 import "./globals.css";
 const inter = Inter({ subsets: ["latin"] });
 
+import AuthProvider from '../components/SessionProvider'
+import Nav from "../components/Nav";
 
 
 export default function RootLayout({
   children,
 }) {
   return (
-    <SessionProvider>
+    <AuthProvider>
       <html lang="en">
-        <body className={inter.className}>{children}</body>
+        <body className={`${inter.className} bg-white dark:bg-gray-900`}>
+          <Nav />
+          {children}
+        </body>
       </html>
-    </SessionProvider>
+    </AuthProvider>
   );
 }
