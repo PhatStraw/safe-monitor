@@ -11,9 +11,9 @@ import { useEffect } from "react";
 export function UserSettings() {
   function handleGoogleSignIn() {
     const clientId =
-      "887064474794-2m0kssn9kbcd01go6c1rhqf6f0epianj.apps.googleusercontent.com"; // Replace with your client ID
+      ""; // Replace with your client ID
     const redirectUri = "http://localhost:3000"; // Replace with your redirect URI
-    const scope = "https://www.googleapis.com/auth/userinfo.email"; // Adjust scope as needed
+    const scope = "openid profile email https://www.googleapis.com/auth/youtube.force-ssl https://www.googleapis.com/auth/youtube.readonly"; // Adjust scope as needed
 
     const authUrl = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${clientId}&redirect_uri=${redirectUri}&scope=${scope}&response_type=code&access_type=offline&prompt=consent`;
 
