@@ -14,7 +14,7 @@ export function Sidebar({ className, items, ...props }) {
   return (
     <nav
       className={cn(
-        "flex flex-col space-x-2 lg:flex-col lg:space-x-0 lg:space-y-1 border-r",
+        "hidden md:flex border-r flex-col space-x-2 lg:flex-col lg:space-x-0 lg:space-y-1",
         className
       )}
       {...props}
@@ -24,10 +24,10 @@ export function Sidebar({ className, items, ...props }) {
           key={item.href}
           href={item.href}
           className={cn(
-            "p-3",
+            "p-3", "m-0",
             {
                 "bg-primary text-white": pathname === item.href, // Change these classes to suit your design
-                "hover:bg-transparent hover:underline": pathname !== item.href,
+                "hover:bg-primary hover:text-white hover:opacity-70": pathname !== item.href,
             }
           )}
         >

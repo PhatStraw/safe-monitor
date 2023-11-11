@@ -6,8 +6,31 @@ import { Input } from "@/components/ui/input"
 import { AvatarImage, AvatarFallback, Avatar } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
+import { useEffect } from "react"
 
 export function UserSettings() {
+  function handleGoogleSignIn() {
+    const clientId = ""; // Replace with your client ID
+    const redirectUri = 'http://localhost:3000/dashboard/profile'; // Replace with your redirect URI
+    const scope = 'https://www.googleapis.com/auth/userinfo.email'; // Adjust scope as needed
+    const responseType = 'token';
+  
+    const authUrl = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=${responseType}&scope=${scope}`;
+  
+    // Redirect the user to the auth URL
+    window.location.href = authUrl;
+  }
+
+  useEffect(() => {
+    // Check if there's an access token in the URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const accessToken = urlParams.get('access_token');
+    console.log(urlParams)
+    if (accessToken) {
+      // TODO: Store the access token
+    }
+  }, []);
+
   return (
     <div className="w-full h-full flex">
       <main className="w-2/3 h-full p-6 overflow-y-auto">
@@ -26,14 +49,14 @@ export function UserSettings() {
           <Input id="user-name" placeholder="Enter your name" />
         </section>
         <section className="mb-8" id="parent-email">
-          <h2 className="text-xl font-semibold mb-2">Parent's Email</h2>
-          <Input id="parent-email" placeholder="Enter your parent's email" type="email" />
+          <h2 className="text-xl text-white font-semibold mb-2">Accounts</h2>
+          <Button id="google-signin" onClick={handleGoogleSignIn}>Sign in with Google</Button>
         </section>
         <section className="mb-8" id="bio">
           <h2 className="text-xl font-semibold mb-2">Bio</h2>
           <Textarea className="min-h-[100px]" id="bio" placeholder="Enter your bio" />
         </section>
-        <Button className="ml-auto">Save</Button>
+        <Button className="ml-auto text-white">Save</Button>
       </main>
     </div>
   );

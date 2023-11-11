@@ -4,6 +4,7 @@ const inter = Inter({ subsets: ["latin"] });
 
 import AuthProvider from '../components/SessionProvider'
 import Nav from "../components/Nav";
+import MobileNav from '../components/MobileNav'
 
 
 export default function RootLayout({
@@ -15,6 +16,7 @@ export default function RootLayout({
         <body className={`${inter.className} bg-white dark:bg-gray-900`}>
           <Nav />
           {children}
+          <MobileNav />
         </body>
       </html>
     </AuthProvider>
