@@ -12,6 +12,7 @@ export default function Dashboard() {
       redirect("/api/auth/signin");
     },
   });
+  
 
   const handleData = async () => {
     const response = await fetch("/api/data", {
