@@ -1,19 +1,9 @@
 "use client";
-import { useSession } from "next-auth/react";
 import React, { useState } from "react";
-import { useRouter } from "next/navigation";
 
-export default function Dashboard() {
-  const router = useRouter();
+export default function Dashboard({session}) {
   const [parentEmail, setParentEmail] = useState("");
-  const { data: session } = useSession({
-    required: true,
-    onUnauthenticated() {
-      redirect("/api/auth/signin");
-    },
-  });
   
-
   const handleData = async () => {
     const response = await fetch("/api/data", {
       method: "POST",

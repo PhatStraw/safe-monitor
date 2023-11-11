@@ -6,14 +6,17 @@ import { Input } from "@/components/ui/input";
 import { AvatarImage, AvatarFallback, Avatar } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 export function UserSettings() {
+  const [newAccount, setNewAccount] = useState()
+  console.log("NEW ACCOUNT", newAccount)
   function handleGoogleSignIn() {
     const clientId =
       ""; // Replace with your client ID
     const redirectUri = "http://localhost:3000"; // Replace with your redirect URI
-    const scope = "openid profile email https://www.googleapis.com/auth/youtube.force-ssl https://www.googleapis.com/auth/youtube.readonly"; // Adjust scope as needed
+    const scope =
+      "openid https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/youtube.force-ssl https://www.googleapis.com/auth/youtube.readonly"; // Adjust scope as needed
 
     const authUrl = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${clientId}&redirect_uri=${redirectUri}&scope=${scope}&response_type=code&access_type=offline&prompt=consent`;
 
@@ -23,33 +26,30 @@ export function UserSettings() {
 
   useEffect(() => {
     const exchangeCodeForToken = async (code) => {
-      const decoded = decodeURIComponent(code);
       try {
-        const response = await fetch('/api/link', {
-          method: 'POST',
+        const response = await fetch("/api/link", {
+          method: "POST",
           headers: {
-            'Content-Type': 'application/json',
+            "Content-Type": "application/json",
           },
-          body: JSON.stringify({ code: decoded }),
+          body: JSON.stringify({ code: code }),
         });
-  
+
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
-  
+
         const data = await response.json();
-        console.log("Access Token:", data.access_token);
-        console.log("Refresh Token:", data.refresh_token);
-  
+        setNewAccount(data)
         // TODO: Handle the access token and refresh token
       } catch (error) {
         console.error("Error exchanging code for tokens:", error);
       }
     };
-  
+
     const urlParams = new URLSearchParams(window.location.search);
     const code = urlParams.get("code");
-  
+
     if (code) {
       exchangeCodeForToken(code);
     }

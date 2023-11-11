@@ -5,10 +5,10 @@ export const options = {
   debug: true,
   events: {
     signIn(message) {
-      console.log('signin message', message)
+      console.log("signin message", message);
     },
     signOut(message) {
-      console.log("SIGNOUT====",message)
+      console.log("SIGNOUT====", message);
     },
   },
   providers: [
@@ -38,9 +38,9 @@ export const options = {
   ],
   callbacks: {
     async jwt({ token, account, user }) {
-    //   console.log("Token:", token);
-    //   console.log("Account:", account);
-    //   console.log("User:", user);
+      //   console.log("Token:", token);
+      //   console.log("Account:", account);
+      //   console.log("User:", user);
       try {
         if (account) {
           token.accessToken = account.access_token;
@@ -57,9 +57,9 @@ export const options = {
       }
     },
     async session({ session, user, token }) {
-    //   console.log("Session:", session);
-    //   console.log("User:", user);
-    //   console.log("Token:", token);
+      //   console.log("Session:", session);
+      //   console.log("User:", user);
+      //   console.log("Token:", token);
       try {
         session.accessToken = token.accessToken;
         session.refreshToken = token.refreshToken;
