@@ -8,13 +8,13 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { useEffect, useState } from "react";
 
-export function UserSettings() {
-  const [newAccount, setNewAccount] = useState()
-  console.log("NEW ACCOUNT", newAccount)
+export function UserSettings({ session }) {
+  const [newAccount, setNewAccount] = useState();
+
   function handleGoogleSignIn() {
+    const redirectUri = "http://localhost:3000"; // Replace with your redirect URI
     const clientId =
       ""; // Replace with your client ID
-    const redirectUri = "http://localhost:3000"; // Replace with your redirect URI
     const scope =
       "openid https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/youtube.force-ssl https://www.googleapis.com/auth/youtube.readonly"; // Adjust scope as needed
 
@@ -32,7 +32,7 @@ export function UserSettings() {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ code: code }),
+          body: JSON.stringify({ code: code, email: session.user.email }),
         });
 
         if (!response.ok) {
@@ -40,7 +40,8 @@ export function UserSettings() {
         }
 
         const data = await response.json();
-        setNewAccount(data)
+        setNewAccount(data);
+        console.log("HELLO");
         // TODO: Handle the access token and refresh token
       } catch (error) {
         console.error("Error exchanging code for tokens:", error);
@@ -49,16 +50,16 @@ export function UserSettings() {
 
     const urlParams = new URLSearchParams(window.location.search);
     const code = urlParams.get("code");
-
+    console.log("CODE", code);
     if (code) {
       exchangeCodeForToken(code);
     }
-  }, []);
+  }, [session]);
 
   return (
     <div className="w-full h-full flex">
       <main className="w-2/3 h-full p-6 overflow-y-auto">
-        <section className="mb-8" id="avatar">
+        {/* <section className="mb-8" id="avatar">
           <h2 className="text-xl font-semibold mb-2">Avatar</h2>
           <div className="flex items-center gap-3">
             <Avatar className="h-9 w-9">
@@ -67,22 +68,29 @@ export function UserSettings() {
             </Avatar>
             <Button variant="outline">Change Avatar</Button>
           </div>
-        </section>
-        <section className="mb-8" id="name">
+        </section> */}
+        {/* <section className="mb-8" id="name">
           <h2 className="text-xl font-semibold mb-2">Name</h2>
           <Input id="user-name" placeholder="Enter your name" />
-        </section>
+        </section> */}
         <section className="mb-8" id="parent-email">
           <h2 className="text-xl font-semibold mb-2">Accounts</h2>
-          <Button
-            id="google-signin"
-            className="text-white"
-            onClick={handleGoogleSignIn}
-          >
-            Sign in with Google
-          </Button>
+          {newAccount ? (
+            <h3 className="text-md font-semibold mb-2">
+              adding account for {newAccount.data.given_name} please check back
+              in an hour
+            </h3>
+          ) : (
+            <Button
+              id="google-signin"
+              className="text-white"
+              onClick={handleGoogleSignIn}
+            >
+              Connect with Google
+            </Button>
+          )}
         </section>
-        <section className="mb-8" id="bio">
+        {/* <section className="mb-8" id="bio">
           <h2 className="text-xl font-semibold mb-2">Bio</h2>
           <Textarea
             className="min-h-[100px]"
@@ -90,7 +98,7 @@ export function UserSettings() {
             placeholder="Enter your bio"
           />
         </section>
-        <Button className="ml-auto text-white">Save</Button>
+        <Button className="ml-auto text-white">Save</Button> */}
       </main>
     </div>
   );

@@ -1,5 +1,34 @@
 import NextAuth from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
+import { sql } from '@vercel/postgres';
+
+async function saveUser(user) {
+  const { email, name, google_id } = user;
+
+  try {
+    // Check if user already exists
+    const existingUser = await sql`
+      SELECT * FROM Users WHERE email = ${email}
+    `;
+
+    // If user exists, return the user
+    if (existingUser.rowCount > 0) {
+      return existingUser.rows[0];
+    }
+
+    // If user doesn't exist, insert new user
+    const { rows } = await sql`
+      INSERT INTO Users (email, name, google_id)
+      VALUES (${email}, ${name}, ${google_id})
+      RETURNING *;
+    `;
+
+    return rows[0];
+  } catch (error) {
+    console.error('Error saving user:', error);
+    throw error;
+  }
+}
 
 export const options = {
   debug: true,
@@ -37,6 +66,22 @@ export const options = {
     }),
   ],
   callbacks: {
+    async signIn({user, account, profile}) {
+      try {
+        const savedUser = await saveUser({
+          email: user.email,
+          name: user.name,
+          google_id: account.providerAccountId,
+        });
+  
+        console.log('Saved user:', savedUser);
+      } catch (error) {
+        console.error('Error in sign-in callback:', error);
+        return Promise.reject(new Error('Failed to save user'));
+      }
+  
+      return Promise.resolve(true);
+    },
     async jwt({ token, account, user }) {
       //   console.log("Token:", token);
       //   console.log("Account:", account);
