@@ -10,7 +10,7 @@ import { useEffect, useState } from "react";
 
 export function UserSettings({ session }) {
   const [newAccount, setNewAccount] = useState();
-
+console.log(newAccount)
   function handleGoogleSignIn() {
     const redirectUri = "http://localhost:3000"; // Replace with your redirect URI
     const clientId =

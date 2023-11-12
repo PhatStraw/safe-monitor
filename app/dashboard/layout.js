@@ -38,7 +38,7 @@ export default function DashboardLayout({ children }) {
   return (
     <div
       id="home"
-      className="max-w-7xl xl:border xl:rounded mx-auto flex mt-5 h-[100vh]"
+      className="max-w-7xl xl:border xl:rounded mx-auto flex pt-5 h-[100vh] bg-gray-100"
     >
       <Sidebar items={items} />
       {session !== null
