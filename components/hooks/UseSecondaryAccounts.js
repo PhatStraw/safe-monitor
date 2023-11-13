@@ -5,6 +5,7 @@ export default function useSecondaryAccounts({user_id, email}) {
 
   useEffect(() => {
     const fetchSecondaryAccounts = async () => {
+      console.log("fetch",email, user_id)
       const response = await fetch(`/api/secondary`, {
         method: "POST",
         headers: {

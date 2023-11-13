@@ -1,6 +1,7 @@
 "use client";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import useFetchSession from "./hooks/UseFetchSession";
 
 const links = [
   {
@@ -18,15 +19,8 @@ const links = [
 ];
 const Nav = () => {
   const [isToggled, setIsToggled] = useState(false);
-  const [session, setSession] = useState(null);
-  useEffect(() => {
-    const fetchSession = async () => {
-      const res = await fetch('/api/session');
-      const data = await res.json();
-      setSession(data.session);
-    };
-    fetchSession();
-  }, []);
+  const session = useFetchSession();
+
   return (
     <header>
       <nav className=" w-full border-b border-black/5 dark:border-white/5 lg:border-transparent">
@@ -108,7 +102,15 @@ const Nav = () => {
                     toggleNavlinks();
                   }}
                 >
-
+                  <li>
+                    <Link
+                      href="/privacy"
+                      target="_blank"
+                      className="flex gap-2 font-semibold text-gray-700 transition hover:text-primary dark:text-white dark:hover:text-white md:px-4"
+                    >
+                      <span>Privacy Policy</span>
+                    </Link>
+                  </li>
                   <li>
                     <Link
                       href="/dashboard"

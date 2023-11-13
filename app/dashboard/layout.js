@@ -68,7 +68,6 @@ const items = [
 
 export default function DashboardLayout({ children }) {
   const session = useFetchSession();
-
   return (
     <div
       id="home"
@@ -76,12 +75,7 @@ export default function DashboardLayout({ children }) {
     >
       <Sidebar items={items} />
       {session !== null
-        ? React.Children.map(children, (child) => {
-            if (React.isValidElement(child)) {
-              return React.cloneElement(child, { session });
-            }
-            return child;
-          })
+        ? children
         : redirect("/api/auth/signin")}
       <MobileNav />
     </div>

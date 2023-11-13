@@ -1,20 +1,20 @@
 'use client'
 import { useState, useEffect } from 'react';
 
-const useSession = () => {
+const useFetchSession = () => {
   const [session, setSession] = useState();
 
   useEffect(() => {
     const fetchSession = async () => {
       const res = await fetch('/api/session');
       const data = await res.json();
-      setSession(data.session);
+      console.log("DATA=====",data)
+      setSession(data.data);
     };
 
     fetchSession();
   }, []);
-
   return session;
 };
 
-export default useSession
+export default useFetchSession

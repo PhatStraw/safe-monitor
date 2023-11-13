@@ -5,8 +5,8 @@ import useFetchSession from "@/components/hooks/UseFetchSession";
 import Link from "next/link";
 export default function Dashboard() {
   const session = useFetchSession();
-  console.log(session);
-  const secondaryAccounts = useSecondaryAccounts({ email: session?.user.email });
+  console.log("======SESSION=====",session);
+  const secondaryAccounts = useSecondaryAccounts({ email: session?.user?.email });
 
   if (!secondaryAccounts.data) {
     return (

@@ -4,5 +4,5 @@ import { options } from '../auth/[...nextauth]/options'
 
 export async function GET(request) {
   const session = await getServerSession(options);
-  return NextResponse.json({ session }, { status: 200 });
+  return NextResponse.json({ data: session }, { status: 200 });
 }
