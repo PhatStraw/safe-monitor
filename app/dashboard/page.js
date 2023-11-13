@@ -1,26 +1,13 @@
 "use client";
 import React, { useState, useEffect } from "react";
+import useSecondaryAccounts from '@/components/hooks/UseSecondaryAccounts'
 
 export default function Dashboard() {
   const [parentEmail, setParentEmail] = useState("");
   const [user, setUser] = useState(null);
-  const [secondaryAccounts, setSecondaryAccounts] = useState([]);
+  const user_id = "1"; // replace with actual user_id
+  const secondaryAccounts = useSecondaryAccounts(user_id);
   console.log(secondaryAccounts, user);
-  useEffect(() => {
-    const fetchSecondaryAccounts = async () => {
-      const user_id = "1"; // replace with actual user_id
-      const response = await fetch(`/api/secondary`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ user_id }), // send the user_id in the request body
-      });
-      const fetchedSecondaryAccounts = await response.json();
-      setSecondaryAccounts(fetchedSecondaryAccounts);
-    };
-    fetchSecondaryAccounts();
-  }, []);
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -69,9 +56,9 @@ export default function Dashboard() {
     );
   }
   return (
-    <div className="px-5 bg-gray-100 overflow-auto">
+    <div className="px-5 overflow-auto">
       {secondaryAccounts.data.map((account) => (
-        <div key={account.account_id} className="mb-10 bg-white rounded shadow p-5">
+        <div key={account.account_id} className="bg-white rounded shadow-xl p-5">
           <h2 className="text-2xl font-bold mb-2">{account.name} ({account.email})</h2>
           <h3 className="text-xl font-semibold mb-2">YouTube Activity Summary</h3>
           <h4 className="text-lg font-semibold mb-1">{account.youtube_data.email_newsletter.subject}</h4>

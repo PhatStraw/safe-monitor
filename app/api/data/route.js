@@ -14,8 +14,8 @@ export async function POST(request) {
     const body = await request.json();
     const userData = async () => {
       const oauth2Client = new google.auth.OAuth2(
-        process.env.GOOGLE_ID,
-        process.env.GOOGLE_SECRET,
+        process.env.NEXT_PUBLIC_GOOGLE_ID,
+        process.env.NEXT_PUBLIC_GOOGLE_SECRET,
         "http://localhost:3000"
       );
 

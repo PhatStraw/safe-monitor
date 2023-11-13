@@ -1,9 +1,9 @@
+require('dotenv').config()
 const { Pool } = require("pg");
 
 // PostgreSQL connection string from Vercel
-const connectionString =
-  "";
-
+const connectionString = "";
+console.log(connectionString)
 const pool = new Pool({
   connectionString: connectionString,
   ssl: {

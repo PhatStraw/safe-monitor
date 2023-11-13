@@ -52,15 +52,15 @@ export const options = {
           role: userRole,
         };
       },
-      clientId: process.env.GOOGLE_ID,
-      clientSecret: process.env.GOOGLE_SECRET,
+      clientId: process.env.NEXT_PUBLIC_GOOGLE_ID,
+      clientSecret: process.env.NEXT_PUBLIC_GOOGLE_SECRET,
       authorization: {
         params: {
           prompt: "consent",
           access_type: "offline",
           response_type: "code",
           scope:
-            "openid profile email https://www.googleapis.com/auth/youtube.force-ssl https://www.googleapis.com/auth/youtube.readonly",
+            "openid profile email",
         },
       },
     }),

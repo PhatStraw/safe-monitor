@@ -1,9 +1,8 @@
-import { NextResponse } from "next/server";
+import { inngest } from "./client";
 import { sql } from "@vercel/postgres";
 import { google } from "googleapis";
 import OpenAI from "openai";
 import nodemailer from "nodemailer";
-import { inngest } from "../../../inngest/client";
 
 const openai = new OpenAI({
   openAIApiKey: process.env.OPENAI_API_KEY,
@@ -62,7 +61,7 @@ async function findUserByEmail(email) {
   throw new Error("User not found");
 }
 
-async function getUserData(auth) {
+async function fetchYoutubeData(auth) {
   const oauth2Client = new google.auth.OAuth2(
     process.env.NEXT_PUBLIC_GOOGLE_ID,
     process.env.NEXT_PUBLIC_GOOGLE_SECRET,
@@ -298,65 +297,140 @@ async function summarizeContent(data, email) {
   return parsed;
 }
 
-async function saveSecondaryAccount(user_id, user, data) {
+async function saveSecondaryAccount(user_id, user, data, youtubeData) {
   const { email, name } = user;
   const { access_token, refresh_token } = data;
 
   try {
-    // Check if the account already exists
-    const existingAccount = await sql`
-      SELECT * FROM SecondaryAccounts WHERE user_id = ${user_id};
-    `;
-
-    if (existingAccount.rows.length > 0) {
-      // Account already exists, return a specific object
-      return { status: 409, message: 'Account already exists' };
-    }
-
-    // If account does not exist, proceed with the insertion
     const { rows } = await sql`
-      INSERT INTO SecondaryAccounts (user_id, email, name, access_token, refresh_token)
-      VALUES (${user_id}, ${email}, ${name}, ${access_token}, ${refresh_token})
-      RETURNING *;
-    `;
+        INSERT INTO SecondaryAccounts (user_id, email, name, access_token, refresh_token, youtube_data)
+        VALUES (${user_id}, ${email}, ${name}, ${access_token}, ${refresh_token}, ${JSON.stringify(
+      youtubeData
+    )})
+        RETURNING *;
+      `;
 
-    return { status: 200, data: rows[0] };
+    return rows[0];
   } catch (error) {
     console.error("Error saving secondary account:", error);
     throw error;
   }
 }
 
-export async function POST(request) {
-  try {
-    const { code, email } = await request.json();
-    const data = await fetchToken(code);
-    const secondaryInfo = await fetchUserInfo(data.access_token);
-    const primary_id = await findUserByEmail(email);
-    const result = await saveSecondaryAccount(primary_id, secondaryInfo, data);
+export const helloWorld = inngest.createFunction(
+  { id: "hello-world" },
+  { cron: "0 9 * * MON" },
+  async ({ step }) => {
+    await step.sleep("wait-a-moment", "1s");
+    return { body: "Hello, World!" };
+  }
+);
 
-    if (result.status === 409) {
-      return NextResponse.json({ error: result.message }, { status: result.status });
-    }
+export const fetchAndSummarizeYoutubeData = inngest.createFunction(
+  { name: "Fetch and Summarize Youtube Data", id: "handle-weekly-data" },
+  { cron: "TZ=America/New_York 0 8 * * 1" }, // Run every Monday at 8am
+  async ({ step, event }) => {
+    console.log("inside the abyss");
 
-    const {account_id, name} = result.data;
-    
-    inngest.send({
-      name: "app/user.signup",
-      data: { accountId: account_id },
-    }, (error, response) => {
-      if (error) {
-        console.error("Error sending data to Inngest:", error);
-        throw new Error("Error sending data to Inngest");
+    const events = rows.map(async (account) => {
+      const { access_token, refresh_token, youtube_data } = account;
+
+      if (youtube_data?.timestamp) {
+        // Parse the timestamp and check if it's at least 5 days old
+        const timestamp = new Date(youtube_data.timestamp);
+        const now = new Date();
+        const fiveDaysInMilliseconds = 5 * 24 * 60 * 60 * 1000;
+
+        if (now - timestamp < fiveDaysInMilliseconds) {
+          // If the timestamp is less than 5 days old, skip this account
+          return;
+        }
       }
+
+      const youtubeData = await fetchYoutubeData({
+        access_token,
+        refresh_token,
+      });
+      const summarizedData = await summarizeContent(youtubeData, account.email);
+
+      return {
+        name: "app/youtube.data.summarized",
+        data: {
+          accountId: account.id,
+          summarizedData,
+        },
+      };
     });
 
-    return NextResponse.json(
-      { data: { name, secondaryId: user_id } },
-      { status: 200 }
-    );
-  } catch (error) {
-    console.error("Error in POST function:", error);
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    await step.sendEvent(await Promise.all(events));
   }
-}
+);
+
+export const fetchAndSummarizeYoutubeDataOnSignup = inngest.createFunction(
+  { name: "Fetch and Summarize Youtube Data on Signup", id: "handle-signup" },
+  { event: "app/user.signup" },
+  async ({ step, event }) => {
+    console.log("inside the abyss");
+    const accountId = event.data?.accountId;
+    console.log("=====Event=====", event);
+
+    // If an accountId is provided, only fetch that account
+    const { rows } = await step.run(
+      "Load specific secondary account",
+      async () =>
+        await sql`SELECT * FROM secondaryaccounts WHERE Account_id = ${accountId}`
+    );
+    console.log("=====ROWS=====", rows);
+
+    const events = rows.map(async (account) => {
+      const { access_token, refresh_token, youtube_data } = account;
+
+      // Parse the timestamp and check if it's at least 5 days old
+      if (youtube_data?.timestamp) {
+        const timestamp = new Date(youtube_data.timestamp);
+        const now = new Date();
+        const fiveDaysInMilliseconds = 5 * 24 * 60 * 60 * 1000;
+
+        if (now - timestamp < fiveDaysInMilliseconds) {
+          // If the timestamp is less than 5 days old, skip this account
+          return;
+        }
+      }
+      console.log("=====ACCOUNT=====", account);
+      const youtubeData = await fetchYoutubeData({
+        access_token,
+        refresh_token,
+      });
+      console.log("=====youtubeData=====", youtubeData);
+      const summarizedData = await summarizeContent(youtubeData, account.email);
+      console.log("=====summarizedData=====", summarizedData);
+
+      return {
+        name: "app/youtube.data.summarized",
+        data: {
+          accountId: account.id,
+          summarizedData,
+        },
+      };
+    });
+
+    await step.sendEvent(await Promise.all(events));
+  }
+);
+
+export const handleSummarizedYoutubeData = inngest.createFunction(
+  { name: "Handle Summarized Youtube Data", id: "handle-summary" },
+  { event: "app/youtube.data.summarized" },
+  async ({ event }) => {
+    const summarizedData = event.data.summarizedData;
+    summarizedData.timestamp = new Date().toISOString();
+    console.log("======SUMMARIZED DATA=====", summarizedData);
+    await sql`UPDATE secondaryaccounts SET youtube_data = ${JSON.stringify(
+      summarizedData
+    )} WHERE id = ${event.data.accountId}`;
+    console.log("++++SAVED++++");
+    return {
+      data: { success: "done" },
+    };
+  }
+);
