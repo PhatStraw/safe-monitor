@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 
-export async function GET() {
+export async function GET(request) {
   const authHeader = request.headers.get("authorization");
   if (
     !process.env.CRON_SECRET ||
