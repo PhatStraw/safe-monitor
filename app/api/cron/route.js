@@ -51,7 +51,7 @@ export async function GET(request) {
       };
     });
     return NextResponse.json(
-      { data: new Promise.all(updates) },
+      { data: await Promise.all(updates) },
       { status: 200 }
     );
   } catch (error) {
