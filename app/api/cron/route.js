@@ -289,7 +289,7 @@ export async function GET(request) {
     });
 
     return NextResponse.json(
-      { data: await Promise.all(updates) },
+      { message: await Promise.all(updates) },
       { status: 200 }
     );
   } catch (error) {

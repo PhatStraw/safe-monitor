@@ -62,7 +62,7 @@ async function findUserByEmail(email) {
   throw new Error("User not found");
 }
 
-async function getUserData(auth) {
+async function fetchYoutubeData(auth) {
   const oauth2Client = new google.auth.OAuth2(
     process.env.NEXT_PUBLIC_GOOGLE_ID,
     process.env.NEXT_PUBLIC_GOOGLE_SECRET,
@@ -169,56 +169,56 @@ async function summarizeContent(data, email) {
       {
         role: "system",
         content: `
-            you are an ai assistant hired by parents to monitor their 
-            childrens internet exposure. 
-  
-            given the following content from youtube, analyze 
-            and create a json object that contains a personal 
-            email newsletter that will be sent to the parent
-            whose childs content this is and split the contents 
-            of that newletter into seperate objects on the response 
-            that can be displayed to the user via an api call. 
-            give opinion on the psych of the child and topics to 
-            discuss with the child.
-            
-            response should be in the following format:
-            {
-              "email_newsletter": {
-                "subject": "Your Child's Recent YouTube Activity - Insightful Overview and Discussion Topics",
-                "greeting": "Dear Parent,",
-                "introduction": "",
-                "content_analysis": [
-                  {
-                    "topic": "",
-                    "content": ""
+              you are an ai assistant hired by parents to monitor their 
+              childrens internet exposure. 
+    
+              given the following content from youtube, analyze 
+              and create a json object that contains a personal 
+              email newsletter that will be sent to the parent
+              whose childs content this is and split the contents 
+              of that newletter into seperate objects on the response 
+              that can be displayed to the user via an api call. 
+              give opinion on the psych of the child and topics to 
+              discuss with the child.
+              
+              response should be in the following format:
+              {
+                "email_newsletter": {
+                  "subject": "Your Child's Recent YouTube Activity - Insightful Overview and Discussion Topics",
+                  "greeting": "Dear Parent,",
+                  "introduction": "",
+                  "content_analysis": [
+                    {
+                      "topic": "",
+                      "content": ""
+                    },
+                    {
+                      "topic": "",
+                      "content": ""
+                    },
+                    {
+                      "topic": "",
+                      "content": ""
+                    },
+                    {
+                      "topic": "",
+                      "content": "."
+                    }
+                  ],
+                  "psych_analysis": {
+                    "overview": "",
+                    "topics_to_discuss": [
+                      "",
+                      "",
+                      "",
+                      ""
+                    ]
                   },
-                  {
-                    "topic": "",
-                    "content": ""
-                  },
-                  {
-                    "topic": "",
-                    "content": ""
-                  },
-                  {
-                    "topic": "",
-                    "content": "."
-                  }
-                ],
-                "psych_analysis": {
-                  "overview": "",
-                  "topics_to_discuss": [
-                    "",
-                    "",
-                    "",
-                    ""
-                  ]
-                },
-                "closing": "",
-                "sign_off": ""
+                  "closing": "",
+                  "sign_off": ""
+                }
               }
-            }
-            `,
+              `,
       },
       {
         role: "user",
@@ -242,49 +242,49 @@ async function summarizeContent(data, email) {
     subject:
       "Your Child's Recent YouTube Activity - Insightful Overview and Discussion Topics",
     html: `
-      <html>
-        <head>
-          <style>
-            /* Add your custom CSS styles here */
-          </style>
-        </head>
-        <body>
-          <h1>Your Child's Recent YouTube Activity</h1>
-          <p>Dear Parent,</p>
-          <p>${parsed.email_newsletter.introduction}</p>
-          
-          <h2>Content Analysis</h2>
-          <ul>
-            ${parsed.email_newsletter.content_analysis
-              .map(
-                (analysis) => `
-              <li>
-                <h3>${analysis.topic}</h3>
-                <p>${analysis.content}</p>
-              </li>
-            `
-              )
-              .join("")}
-          </ul>
-          
-          <h2>Psychological Analysis</h2>
-          <p>${parsed.email_newsletter.psych_analysis.overview}</p>
-          <h3>Topics to Discuss:</h3>
-          <ul>
-            ${parsed.email_newsletter.psych_analysis.topics_to_discuss
-              .map(
-                (topic) => `
-              <li>${topic}</li>
-            `
-              )
-              .join("")}
-          </ul>
-          
-          <p>${parsed.email_newsletter.closing}</p>
-          <p>${parsed.email_newsletter.sign_off}</p>
-        </body>
-      </html>
-    `,
+        <html>
+          <head>
+            <style>
+              /* Add your custom CSS styles here */
+            </style>
+          </head>
+          <body>
+            <h1>Your Child's Recent YouTube Activity</h1>
+            <p>Dear Parent,</p>
+            <p>${parsed.email_newsletter.introduction}</p>
+            
+            <h2>Content Analysis</h2>
+            <ul>
+              ${parsed.email_newsletter.content_analysis
+                .map(
+                  (analysis) => `
+                <li>
+                  <h3>${analysis.topic}</h3>
+                  <p>${analysis.content}</p>
+                </li>
+              `
+                )
+                .join("")}
+            </ul>
+            
+            <h2>Psychological Analysis</h2>
+            <p>${parsed.email_newsletter.psych_analysis.overview}</p>
+            <h3>Topics to Discuss:</h3>
+            <ul>
+              ${parsed.email_newsletter.psych_analysis.topics_to_discuss
+                .map(
+                  (topic) => `
+                <li>${topic}</li>
+              `
+                )
+                .join("")}
+            </ul>
+            
+            <p>${parsed.email_newsletter.closing}</p>
+            <p>${parsed.email_newsletter.sign_off}</p>
+          </body>
+        </html>
+      `,
   };
 
   transporter.sendMail(mailOptions, function (error, info) {
