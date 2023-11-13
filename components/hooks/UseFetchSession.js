@@ -9,7 +9,6 @@ const useSession = () => {
       const res = await fetch('/api/session');
       const data = await res.json();
       setSession(data.session);
-      console.log(data)
     };
 
     fetchSession();

@@ -26,7 +26,7 @@ export function UserSettings({ session }) {
   const [newAccount, setNewAccount] = useState();
   console.log("session settings", session, newAccount)
   const user_id = "1"; // replace with actual user_id
-  const secondaryAccounts = useSecondaryAccounts(user_id);
+  const secondaryAccounts = useSecondaryAccounts({user_id});
 
   useEffect(() => {
     const createSecondaryFromCode = async (code) => {
