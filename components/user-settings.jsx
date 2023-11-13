@@ -63,14 +63,14 @@ export function UserSettings({ session }) {
   
     const urlParams = new URLSearchParams(window.location.search);
     const code = urlParams.get("code");
-    if (code) {
+    if (code && session?.user.email && session.user.email.endsWith('.com')) {
       createSecondaryFromCode(code);
     }
   }, [session?.user.email]);
 
   return (
-    <div className="w-full h-full flex">
-      <main className="w-2/3 h-full p-6 overflow-y-auto">
+    <div className="w-full h-full flex bg-white rounded shadow-xl p-5 overflow-y-auto">
+      <main className="w-2/3 h-full p-6 ">
         {/* <section className="mb-8" id="avatar">
           <h2 className="text-xl font-semibold mb-2">Avatar</h2>
           <div className="flex items-center gap-3">

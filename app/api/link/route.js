@@ -298,29 +298,30 @@ async function summarizeContent(data, email) {
   return parsed;
 }
 
-async function saveSecondaryAccount(user_id, user, data) {
+async function saveSecondaryAccount(primary_id, user, data) {
   const { email, name } = user;
   const { access_token, refresh_token } = data;
 
   try {
     // Check if the account already exists
     const existingAccount = await sql`
-      SELECT * FROM SecondaryAccounts WHERE user_id = ${user_id};
+      SELECT * FROM SecondaryAccounts WHERE email = ${email};
     `;
 
     if (existingAccount.rows.length > 0) {
       // Account already exists, return a specific object
       return { status: 409, message: 'Account already exists' };
+    } else {
+      // If account does not exist, proceed with the insertion
+      const { rows } = await sql`
+        INSERT INTO SecondaryAccounts (user_id, email, name, access_token, refresh_token)
+        VALUES (${primary_id}, ${email}, ${name}, ${access_token}, ${refresh_token})
+        RETURNING *;
+      `;
+  
+      return { status: 200, data: rows[0] };
     }
 
-    // If account does not exist, proceed with the insertion
-    const { rows } = await sql`
-      INSERT INTO SecondaryAccounts (user_id, email, name, access_token, refresh_token)
-      VALUES (${user_id}, ${email}, ${name}, ${access_token}, ${refresh_token})
-      RETURNING *;
-    `;
-
-    return { status: 200, data: rows[0] };
   } catch (error) {
     console.error("Error saving secondary account:", error);
     throw error;
@@ -340,7 +341,7 @@ export async function POST(request) {
     }
 
     const {account_id, name} = result.data;
-    
+
     inngest.send({
       name: "app/user.signup",
       data: { accountId: account_id },

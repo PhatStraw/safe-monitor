@@ -44,7 +44,7 @@ export default function Dashboard() {
   if (!secondaryAccounts.data) {
     return (
       <div className="m-7 font-bold">
-        Welcome! If you haven't already, please navigate to your profile and
+        Welcome! If you haven&apos;t already, please navigate to your profile and
         complete the{" "}
         <span className="border-b border-b-2 border-b-black">
           Connect With Google
@@ -56,9 +56,9 @@ export default function Dashboard() {
     );
   }
   return (
-    <div className="px-5 overflow-auto">
+    <div className="overflow-auto bg-white shadow p-5">
       {secondaryAccounts.data.map((account) => (
-        <div key={account.account_id} className="bg-white rounded shadow-xl p-5">
+        <div key={account.account_id} className="">
           <h2 className="text-2xl font-bold mb-2">{account.name} ({account.email})</h2>
           <h3 className="text-xl font-semibold mb-2">YouTube Activity Summary</h3>
           <h4 className="text-lg font-semibold mb-1">{account.youtube_data.email_newsletter.subject}</h4>

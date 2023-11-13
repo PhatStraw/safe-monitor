@@ -108,28 +108,19 @@ const Nav = () => {
                     toggleNavlinks();
                   }}
                 >
-                  {links.map((link) => (
-                    <li key={link.to}>
-                      <a
-                        href={link.to}
-                        className="hover:text-primary block transition dark:hover:text-white md:px-4"
-                      >
-                        <span>{link.label}</span>
-                      </a>
-                    </li>
-                  ))}
+
                   <li>
-                    <a
-                      href="https://tailus.gumroad.com/l/astls-premium"
+                    <Link
+                      href="/dashboard"
                       target="_blank"
                       className="flex gap-2 font-semibold text-gray-700 transition hover:text-primary dark:text-white dark:hover:text-white md:px-4"
                     >
-                      <span>Premium</span>
+                      <span>App</span>
                       <span className="flex rounded-full bg-primary/20 px-1.5 py-0.5 text-xs tracking-wider text-purple-700 dark:bg-white/10 dark:text-orange-300">
                         {" "}
                         new
                       </span>
-                    </a>
+                    </Link>
                   </li>
                 </ul>
               </div>
