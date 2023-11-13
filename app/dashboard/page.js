@@ -10,15 +10,15 @@ export default function Dashboard() {
 
   if (!secondaryAccounts.data) {
     return (
-      <div className="mx-auto m-7 font-bold flex flex-col justify-center text-center">
-        <h1 className="text-4xl font-bold tracking-tighter md:text-5xl lg:text-6xl/none">
+      <div className="w-full shadow-xl t-7 font-bold flex flex-col justify-center text-center">
+        <h1 className="text-4xl mx-2 font-bold tracking-tighter md:text-5xl lg:text-6xl/none">
           Welcome to Safe Monitor
         </h1>
-        <p className="mt-4 max-w-[600px] text-center text-zinc-500 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed dark:text-zinc-400">
+        <p className="mt-4 mx-4 text-center text-zinc-500 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed dark:text-zinc-400">
           Thank you for joining us, and we&apos;re excited to have you on board!
         </p>
         <Link
-          className="mt-8 mx-10 inline-flex h-10 items-center justify-center rounded-md bg-zinc-900 px-8 text-sm font-medium text-zinc-50 shadow transition-colors hover:bg-zinc-900/90 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-zinc-950 disabled:pointer-events-none disabled:opacity-50 dark:bg-zinc-50 dark:text-zinc-900 dark:hover:bg-zinc-50/90 dark:focus-visible:ring-zinc-300"
+          className="mt-8 mx-20 inline-flex h-10 items-center justify-center rounded-md bg-zinc-900 px-8 text-sm font-medium text-zinc-50 shadow transition-colors hover:bg-zinc-900/90 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-zinc-950 disabled:pointer-events-none disabled:opacity-50 dark:bg-zinc-50 dark:text-zinc-900 dark:hover:bg-zinc-50/90 dark:focus-visible:ring-zinc-300"
           href="/dashboard/profile"
         >
           Continue
