@@ -100,7 +100,7 @@ export function UserSettings({ session }) {
           </div>
           {newAccount && (
             <h3 className="text-md font-semibold mb-2">
-              adding account for {newAccount.data.given_name} please check back
+              adding account for {newAccount.data.name} please check back
               in an hour
             </h3>
           )}
