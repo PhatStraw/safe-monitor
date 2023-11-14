@@ -9,11 +9,6 @@ export default function Dashboard() {
   const secondaryAccounts = useSecondaryAccounts({
     email: session?.user?.email,
   });
-  const [selectedTopic, setSelectedTopic] = useState(null);
-
-  const handleTopicClick = (index) => {
-    setSelectedTopic(selectedTopic === index ? null : index);
-  };
 
   if (!secondaryAccounts.data) {
     return (
@@ -88,7 +83,7 @@ export default function Dashboard() {
             <ul className="list-inside mb-3">
               {account.youtube_data?.email_newsletter.psych_analysis.topics_to_discuss.map(
                 (topic, index) => (
-                  <li key={index} className="text-md p-1">
+                  <li key={index} className="text-md border-b my-1 p-1">
                     {topic}
                   </li>
                 )
