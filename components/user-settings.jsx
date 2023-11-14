@@ -10,7 +10,7 @@ import { useEffect, useState } from "react";
 import useSecondaryAccounts from "@/components/hooks/UseSecondaryAccounts";
 import { toast } from 'react-hot-toast';
 function handleGoogleSignIn() {
-  const redirectUri = "http://localhost:3000"; // Replace with your redirect URI
+  const redirectUri = process.env.NEXT_PUBLIC_GOOGLE_REDIRECT_URI; // Replace with your redirect URI
   const clientId =
    process.env.NEXT_PUBLIC_GOOGLE_ID; // Replace with your client ID
   const scope =

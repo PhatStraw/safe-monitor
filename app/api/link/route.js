@@ -18,7 +18,7 @@ async function fetchToken(code) {
     code, // The authorization code received from Google's OAuth2 server
     client_id: process.env.NEXT_PUBLIC_GOOGLE_ID, // The client ID of your application
     client_secret: process.env.NEXT_PUBLIC_GOOGLE_SECRET, // The client secret of your application
-    redirect_uri: process.env.GOOGLE_REDIRECT_URI, // The redirect URI where the user will be sent after authorization
+    redirect_uri: process.env.NEXT_PUBLIC_GOOGLE_REDIRECT_URI, // The redirect URI where the user will be sent after authorization
     grant_type: "authorization_code", // The grant type for the request (in this case, authorization code)
   });
 
@@ -78,7 +78,7 @@ async function fetchYoutubeData(auth) {
   const oauth2Client = new google.auth.OAuth2(
     process.env.NEXT_PUBLIC_GOOGLE_ID,
     process.env.NEXT_PUBLIC_GOOGLE_SECRET,
-    process.env.GOOGLE_REDIRECT_URI
+    process.env.NEXT_PUBLIC_GOOGLE_REDIRECT_URI
   );
 
   // Set the credentials on the OAuth2 client

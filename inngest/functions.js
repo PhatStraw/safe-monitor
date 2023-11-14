@@ -65,7 +65,7 @@ async function fetchYoutubeData(auth) {
   const oauth2Client = new google.auth.OAuth2(
     process.env.NEXT_PUBLIC_GOOGLE_ID,
     process.env.NEXT_PUBLIC_GOOGLE_SECRET,
-    "http://localhost:3000"
+    process.env.NEXT_PUBLIC_GOOGLE_REDIRECT_URI
   );
 
   oauth2Client.setCredentials({
