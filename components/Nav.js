@@ -27,8 +27,8 @@ const Nav = () => {
         <div className="max-w-7xl mx-auto px-6 md:px-12 xl:px-6">
           <div className="relative flex flex-wrap items-center justify-between gap-6 py-3 md:gap-0 md:py-4">
             <div className="relative z-20 flex w-full justify-between md:px-0 lg:w-max">
-              <a
-                href="/#home"
+              <Link
+                href="/"
                 aria-label="logo"
                 className="flex items-center space-x-2"
               >
@@ -39,7 +39,7 @@ const Nav = () => {
                 <span className="text-2xl font-bold text-gray-900 dark:text-white">
                   Safe Monitor
                 </span>
-              </a>
+              </Link>
 
               <div className="relative flex max-h-10 items-center lg:hidden">
                 <button
@@ -99,13 +99,11 @@ const Nav = () => {
                   className="flex flex-col gap-6 tracking-wide lg:flex-row lg:gap-0 lg:text-sm"
                   onClick={() => {
                     setIsToggled(!isToggled);
-                    toggleNavlinks();
                   }}
                 >
                   <li>
                     <Link
                       href="/privacy"
-                      target="_blank"
                       className="flex gap-2 font-semibold text-gray-700 transition hover:text-primary dark:text-white dark:hover:text-white md:px-4"
                     >
                       <span>Privacy Policy</span>
@@ -114,7 +112,6 @@ const Nav = () => {
                   <li>
                     <Link
                       href="/dashboard"
-                      target="_blank"
                       className="flex gap-2 font-semibold text-gray-700 transition hover:text-primary dark:text-white dark:hover:text-white md:px-4"
                     >
                       <span>App</span>

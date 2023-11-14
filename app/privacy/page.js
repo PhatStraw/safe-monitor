@@ -15,7 +15,7 @@ export default function Page() {
         Privacy Policy for Smart Monitor
       </h1>
 
-      <h2>Last Updated: [Date]</h2>
+      <h2>Last Updated: 11/12/23</h2>
 
       <h3>Introduction</h3>
       <p>
@@ -71,7 +71,7 @@ export default function Page() {
         <li>To protect the rights and safety of our users and the public.</li>
         <li>
           With service providers under contract who help with parts of our
-          business operations (such as cloud hosting providers).
+          business operations such as cloud hosting providers.
         </li>
       </ul>
 
@@ -90,8 +90,8 @@ export default function Page() {
         <li>Request the correction of incorrect information.</li>
         <li>Request the deletion of their information.</li>
         <li>
-          Withdraw consent for data processing (which may affect service
-          availability).
+          Withdraw consent for data processing which may affect service
+          availability.
         </li>
       </ul>
 
@@ -117,7 +117,7 @@ export default function Page() {
       <h3>Contact Information</h3>
       <p>
         For any questions about this privacy policy or our privacy practices,
-        please contact us at [Contact Information].
+        please contact us at kevindsimsjr@gmail.com.
       </p>
     </div>
   );

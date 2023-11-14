@@ -3,7 +3,6 @@ import { sql } from "@vercel/postgres";
 import { google } from "googleapis";
 import OpenAI from "openai";
 import nodemailer from "nodemailer";
-import { inngest } from "../../../inngest/client";
 
 const openai = new OpenAI({
   openAIApiKey: process.env.OPENAI_API_KEY,
@@ -48,7 +47,6 @@ async function fetchUserInfo(access_token) {
       Authorization: `Bearer ${access_token}`, // The access token received from Google's OAuth2 server
     },
   });
-
   // If the response is not ok (status is not in the range 200-299), throw an error
   if (!userInfoResponse.ok) {
     throw new Error(`Failed to fetch user info: ${userInfoResponse.status}`);
@@ -342,7 +340,7 @@ export async function POST(request) {
 
     // Fetch the token using the code
     const data = await fetchToken(code);
-
+ 
     // Fetch the user info using the access token
     const secondaryInfo = await fetchUserInfo(data.access_token);
 
@@ -364,11 +362,7 @@ export async function POST(request) {
     const { account_id, name } = result.data;
 
     // Fetch the secondary account from the database
-    const { rows } = await step.run(
-      "Load specific secondary account",
-      async () =>
-        await sql`SELECT * FROM secondaryaccounts WHERE account_id = ${account_id}`
-    );
+    const { rows } = await sql`SELECT * FROM secondaryaccounts WHERE account_id = ${account_id}`
 
     // Extract the access token, refresh token, and YouTube data from the account
     const { access_token, refresh_token, youtube_data } = rows[0];

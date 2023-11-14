@@ -24,9 +24,8 @@ function handleGoogleSignIn() {
 
 export function UserSettings({ session }) {
   const [newAccount, setNewAccount] = useState();
-  console.log("session settings", session, newAccount)
-  const user_id = "1"; // replace with actual user_id
-  const secondaryAccounts = useSecondaryAccounts({user_id});
+  const email = session?.user.email; // replace with actual user_id
+  const secondaryAccounts = useSecondaryAccounts({email});
 
   useEffect(() => {
     const createSecondaryFromCode = async (code) => {
@@ -68,6 +67,15 @@ export function UserSettings({ session }) {
     }
   }, [session?.user.email]);
 
+  const tailStr = (str) => {
+    let newStr;
+    if(str.length > 14){
+      newStr = str.slice(0,10)
+      return(newStr + "...")
+    }
+    return str
+  }
+
   return (
     <div className="w-full h-full flex bg-white rounded shadow-xl p-5 overflow-y-auto">
       <main className="w-2/3 h-full p-6 ">
@@ -87,14 +95,14 @@ export function UserSettings({ session }) {
         </section> */}
         <section className="mb-8" id="parent-email">
           <h2 className="text-xl font-semibold mb-2">Accounts</h2>
-          <div className="flex mb-1">
+          <div className="flex flex-col md:flex-row mb-1">
             {secondaryAccounts &&
               secondaryAccounts.data?.map((account, index) => (
                 <div
                   key={index}
-                  className="bg-primary/60 text-white mr-1 py-2 px-4 rounded"
+                  className="bg-primary/60 text-center text-white mb-1 md:mr-1 py-2 px-4 rounded"
                 >
-                  {account.email}
+                  {tailStr(account.email)}
                 </div>
               ))}
           </div>

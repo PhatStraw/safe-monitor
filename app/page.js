@@ -1,6 +1,21 @@
+'use client';
+import useFetchSession from "@/components/hooks/UseFetchSession";
 import Link from "next/link";
+import { redirect } from "next/navigation";
+import { useEffect } from "react";
 
-export default async function Home() {
+export default function Home() {
+  const session = useFetchSession()
+
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const code = urlParams;
+    console.log(code)
+    if (code.size > 0 && session?.user.email && session.user.email.endsWith(".com")) {
+     redirect(`/dashboard/profile?${code}`)
+    }
+  }, [session?.user.email]);
+
   return (
     <>
       <div className="relative" id="home">
