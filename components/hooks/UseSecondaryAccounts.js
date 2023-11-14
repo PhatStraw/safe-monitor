@@ -3,10 +3,11 @@ import { useState, useEffect } from "react";
 
 export default function useSecondaryAccounts({user_id, email}) {
   const [secondaryAccounts, setSecondaryAccounts] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const fetchSecondaryAccounts = async () => {
-      console.log("fetch",email, user_id)
+      setIsLoading(true);
       const response = await fetch(`/api/secondary`, {
         method: "POST",
         headers: {
@@ -18,7 +19,8 @@ export default function useSecondaryAccounts({user_id, email}) {
       setSecondaryAccounts(fetchedSecondaryAccounts);
     };
     fetchSecondaryAccounts();
+    setIsLoading(false);
   }, [user_id, email]);
-
-  return secondaryAccounts;
+  
+  return { data: secondaryAccounts, isLoading };
 }
