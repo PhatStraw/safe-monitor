@@ -1,22 +1,8 @@
 "use client";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import useFetchSession from "./hooks/UseFetchSession";
 
-const links = [
-  {
-    to: "/#features",
-    label: "Features",
-  },
-  {
-    to: "/#solution",
-    label: "Solution",
-  },
-  {
-    to: "/#reviews",
-    label: "Reviews",
-  },
-];
 const Nav = () => {
   const [isToggled, setIsToggled] = useState(false);
   const session = useFetchSession();

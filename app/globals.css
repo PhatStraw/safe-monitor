@@ -2,3 +2,17 @@
 @tailwind components;
 @tailwind utilities;
  
+
+.dropdown-content {
+    max-height: 0;
+    overflow: hidden;
+    transition-property: max-height;
+    transition-duration: 1000ms;
+    transition-timing-function: cubic-bezier(0, 1, 0.5, 1);
+  }
+  
+  .dropdown-content.open {
+    max-height: 1000px;
+    transition-duration: 1000ms;
+    transition-timing-function: cubic-bezier(0, 1, 0.5, 1);
+  }
