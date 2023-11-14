@@ -37,7 +37,7 @@ export default function Dashboard() {
     <div className="overflow-auto bg-primary/20 shadow p-5">
       {secondaryAccounts.data.map((account) => (
         <div key={account.account_id} className="mb-10 border-b pb-3">
-          <div className="flex justify-between p-4">
+          <div className="flex flex-col lg:flex-row justify-between p-4">
             <h3 className="text-2xl font-bold mb-2">
               YouTube Activity Summary
             </h3>
@@ -84,11 +84,11 @@ export default function Dashboard() {
           </div>
 
           <div className="bg-white shadow-lg rounded p-4 mb-3">
-            <h5 className="font-medium mb-1">Topics to Discuss</h5>
-            <ul className="list-disc list-inside mb-3">
+            <h5 className="text-lg font-lg font-bold mb-1">Topics to Discuss</h5>
+            <ul className="list-inside mb-3">
               {account.youtube_data?.email_newsletter.psych_analysis.topics_to_discuss.map(
                 (topic, index) => (
-                  <li key={index} className="text-sm">
+                  <li key={index} className="text-md p-1">
                     {topic}
                   </li>
                 )

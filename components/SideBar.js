@@ -24,7 +24,7 @@ export function Sidebar({ className, items, ...props }) {
           key={item.href}
           href={item.href}
           className={cn(
-            "px-3","py-1","flex","justify-center", "w-56","text-center", "mx-4","my-4","rounded-xl", "text-xl",
+            "px-3","py-2","flex","justify-center", "w-56","text-center", "mx-4","my-4","rounded-xl", "text-xl",
             {
                 "bg-primary text-white": pathname === item.href, // Change these classes to suit your design
                 "hover:bg-primary hover:text-white hover:opacity-70": pathname !== item.href,
