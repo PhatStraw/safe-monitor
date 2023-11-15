@@ -73,7 +73,7 @@ export default function Dashboard() {
               </p>
             </div>
           ) : (
-            <div key={index} className=" flex flex-col justify-between p-6">
+            <div key={index} className="border-b flex flex-col justify-between p-6">
             <h3 className="text-2xl  font-bold mb-4 text-center">
               Activity Summary ({tailStr(account.email)})
             </h3>

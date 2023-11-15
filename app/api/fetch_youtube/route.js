@@ -39,7 +39,7 @@ async function fetchYoutubeData(auth) {
       auth: oauth2Client,
       part: "snippet",
       playlistId: "LL", // LL is the playlist ID for the liked videos
-      maxResults: 10,
+      maxResults: 5,
     })
     .catch((err) => console.error("Error retrieving liked videos: " + err));
   data.likedVideos = likedVideosResponse.data.items;
@@ -50,7 +50,7 @@ async function fetchYoutubeData(auth) {
       auth: oauth2Client,
       part: "snippet",
       mine: true,
-      maxResults: 10,
+      maxResults: 5,
     })
     .catch((err) => console.error("Error retrieving subscriptions: " + err));
   data.subscriptions = subscriptionsResponse.data.items;
@@ -246,11 +246,12 @@ export async function POST(request) {
       access_token: secondary_row.access_token,
       refresh_token: secondary_row.refresh_token,
     });
-
+console.log("=========youtubeData=========", youtubeData)
     const summarizedData = await summarizeContent(
       youtubeData,
       secondary_row.email
     );
+    console.log("=========summarizedData=========", summarizedData)
 
     if (summarizedData) {
       summarizedData.timestamp = new Date().toISOString();
