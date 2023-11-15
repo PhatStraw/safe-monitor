@@ -32,7 +32,6 @@ function handleGoogleSignIn() {
 export function UserSettings({ session }) {
   const [newAccount, setNewAccount] = useState();
   const email = session?.user.email; // replace with actual user_id
-  const YayNay = email.endsWith(".com")
   const { data: secondaryAccounts, isLoading } = useSecondaryAccounts({
     email,
   });
@@ -74,7 +73,7 @@ export function UserSettings({ session }) {
     if (code && session?.user.email && session.user.email.endsWith(".com")) {
       createSecondaryFromCode(code);
     }
-  }, [YayNay]);
+  }, [session?.user.email]);
 
   const tailStr = (str) => {
     let newStr;
