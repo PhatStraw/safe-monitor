@@ -3,19 +3,10 @@
  * @see https://v0.dev/t/0M462Ng5a0Q
  */
 import React, { useEffect, useState } from "react";
-import { loadStripe } from "@stripe/stripe-js";
-import {
-  EmbeddedCheckoutProvider,
-  EmbeddedCheckout,
-} from "@stripe/react-stripe-js";
 import { Button } from "@/components/ui/button";
 import useSecondaryAccounts from "@/components/hooks/UseSecondaryAccounts";
 import { toast } from "react-hot-toast";
 import Link from "next/link";
-
-const stripePromise = loadStripe(
-  process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
-);
 
 function handleGoogleSignIn() {
   const redirectUri = process.env.NEXT_PUBLIC_GOOGLE_REDIRECT_URI; // Replace with your redirect URI
