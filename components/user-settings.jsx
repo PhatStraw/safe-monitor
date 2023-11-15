@@ -31,19 +31,12 @@ function handleGoogleSignIn() {
 
 export function UserSettings({ session }) {
   const [newAccount, setNewAccount] = useState();
-  const [clientSecret, setClientSecret] = useState("");
   const email = session?.user.email; // replace with actual user_id
+  const YayNay = email.endsWith(".com")
   const { data: secondaryAccounts, isLoading } = useSecondaryAccounts({
     email,
   });
 
-  useEffect(() => {
-    fetch("/api/checkout_sessions", {
-      method: "POST",
-    })
-      .then((res) => res.json())
-      .then((data) => setClientSecret(data.clientSecret));
-  }, []);
   useEffect(() => {
     const createSecondaryFromCode = async (code) => {
       // Create a loading toast
@@ -81,7 +74,7 @@ export function UserSettings({ session }) {
     if (code && session?.user.email && session.user.email.endsWith(".com")) {
       createSecondaryFromCode(code);
     }
-  }, [session?.user.email]);
+  }, [YayNay]);
 
   const tailStr = (str) => {
     let newStr;
