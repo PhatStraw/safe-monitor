@@ -10,6 +10,7 @@ const openai = new OpenAI({
 
 export const config = {
   runtime: 'edge',
+  regions: 'iad1', // optional
 };
 
 // This function fetches an access token from Google's OAuth2 server
