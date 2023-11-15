@@ -25,7 +25,9 @@ const createTables = async () => {
         user_id SERIAL PRIMARY KEY,
         email VARCHAR(255) UNIQUE NOT NULL,
         name VARCHAR(255),
-        google_id VARCHAR(255) UNIQUE
+        google_id VARCHAR(255) UNIQUE,
+        stripe_id VARCHAR(255) UNIQUE,
+        is_subscribed BOOLEAN DEFAULT false
       );
     
       CREATE TABLE IF NOT EXISTS SecondaryAccounts (

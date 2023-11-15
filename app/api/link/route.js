@@ -1,8 +1,6 @@
 import { NextResponse } from "next/server";
 import { sql } from "@vercel/postgres";
-import { google } from "googleapis";
 import OpenAI from "openai";
-import nodemailer from "nodemailer";
 
 const openai = new OpenAI({
   openAIApiKey: process.env.OPENAI_API_KEY,

@@ -4,12 +4,14 @@ import useSecondaryAccounts from "@/components/hooks/UseSecondaryAccounts";
 import useFetchSession from "@/components/hooks/UseFetchSession";
 import Link from "next/link";
 import { DropDown } from "@/components/drop-down";
+import useActiveUser from "@/components/hooks/UseActiveUser";
 
 export default function Dashboard() {
   const session = useFetchSession();
   const { data: secondaryAccounts, isLoading } = useSecondaryAccounts({
     email: session?.user?.email,
   });
+  const activeUser = useActiveUser(session?.user?.email)
   console.log("========SecondartAccouts==========", secondaryAccounts);
 
   const tailStr = (str) => {
@@ -25,9 +27,9 @@ export default function Dashboard() {
     return <div>Loading...</div>; // Replace with your loading component
   }
 
-  if (secondaryAccounts.data) {
+  if (secondaryAccounts.data && user.is_subscribed) {
     return (
-      <div className="overflow-auto bg-primary/20 shadow p-5 w-full rounded-r-lg">
+      <div className="overflow-auto bg-primary/20 shadow p-5 w-full rounded-lg">
         {secondaryAccounts.data.map((account, index) =>
           account.youtube_data?.email_newsletter ? (
             <div key={account.account_id} className="mb-10 border-b pb-3">
@@ -86,20 +88,19 @@ export default function Dashboard() {
   }
 
   return (
-    <div className="w-full shadow-xl t-7 font-bold flex flex-col justify-center text-center">
+    <div className="w-full rounded-lg border shadow-xl m-2 t-7 font-bold flex flex-col justify-center text-center md:px-10">
       <h1 className="text-4xl mx-2 font-bold tracking-tighter md:text-5xl lg:text-6xl/none">
-        Welcome to Safe Monitor
+ Welcome to Safe Monitor.
       </h1>
-
       <p className="mt-4 mx-4 text-center text-zinc-500 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed dark:text-zinc-400">
-        Thank you for joining us, and we&apos;re excited to have you on board!
+        Add a payment method, then connect an account to get started.
       </p>
 
       <Link
-        className="m-8 mx-20 inline-flex h-10 items-center justify-center rounded-md bg-zinc-900 px-8 text-sm font-medium text-zinc-50 shadow transition-colors hover:bg-zinc-900/90 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-zinc-950 disabled:pointer-events-none disabled:opacity-50 dark:bg-zinc-50 dark:text-zinc-900 dark:hover:bg-zinc-50/90 dark:focus-visible:ring-zinc-300"
+        className="m-8 mx-10 inline-flex h-10 items-center md:text-lg/relaxed justify-center rounded-md bg-zinc-900 px-8 text-sm font-medium text-zinc-50 shadow transition-colors hover:bg-zinc-900/90 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-zinc-950 disabled:pointer-events-none disabled:opacity-50 dark:bg-zinc-50 dark:text-zinc-900 dark:hover:bg-zinc-50/90 dark:focus-visible:ring-zinc-300"
         href="/dashboard/profile"
       >
-        Connect Account
+       Subscribe & Connect 
       </Link>
     </div>
   );

@@ -10,7 +10,7 @@ export default function DashboardLayout({ children }) {
   return (
     <div
       id="home"
-      className="max-w-7xl rounded-xl shadow-2xl xl:rounded mx-auto flex border h-[92vh]"
+      className="max-w-7xl xl:rounded-xl shadow-2xl xl:rounded mx-auto flex border h-[92vh]"
     >
       <Sidebar />
       {session !== null

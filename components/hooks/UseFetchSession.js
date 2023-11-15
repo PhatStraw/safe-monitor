@@ -8,7 +8,7 @@ const useFetchSession = () => {
     const fetchSession = async () => {
       const res = await fetch('/api/session');
       const data = await res.json();
-      console.log("DATA=====",data)
+      
       setSession(data.data);
     };
 

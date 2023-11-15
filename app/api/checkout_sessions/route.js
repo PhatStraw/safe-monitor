@@ -1,22 +1,45 @@
 import { NextResponse } from "next/server";
-const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
+import stripePackage from "stripe";
+import { sql } from "@vercel/postgres";
+
+const stripe = stripePackage(process.env.STRIPE_SECRET_KEY);
+
+async function createSession() {
+      // Create Checkout Sessions from body params.
+      const session = await stripe.checkout.sessions.create({
+        ui_mode: "embedded",
+        line_items: [
+          {
+            // Provide the exact Price ID (for example, pr_1234) of the product you want to sell
+            price: "price_1OCUcsAlSphatrSrj5EE1naN",
+            quantity: 1,
+          },
+        ],
+        mode: "subscription",
+        return_url: `${process.env.NEXT_PUBLIC_GOOGLE_REDIRECT_URI}/return?session_id={CHECKOUT_SESSION_ID}`,
+        automatic_tax: { enabled: true },
+      });
+
+      return session
+}
+
+async function retrieveSession(sessionId, userEmail) {
+  const session = await stripe.checkout.sessions.retrieve(
+    sessionId
+  );
+
+  await sql`
+    UPDATE Users
+    SET is_subscribed = true,
+        stripe_id = ${sessionId}
+    WHERE email = ${userEmail}
+  `;
+  return session
+}
 
 async function POST(req) {
   try {
-    // Create Checkout Sessions from body params.
-    const session = await stripe.checkout.sessions.create({
-      ui_mode: "embedded",
-      line_items: [
-        {
-          // Provide the exact Price ID (for example, pr_1234) of the product you want to sell
-          price: "price_1OCUKaAlSphatrSruZzmGbqf",
-          quantity: 1,
-        },
-      ],
-      mode: "subscription",
-      return_url: `${req.headers.origin}/return?session_id={CHECKOUT_SESSION_ID}`,
-      automatic_tax: { enabled: true },
-    });
+    const session = await createSession();
 
     return NextResponse.json(
       { clientSecret: session.client_secret },
@@ -32,17 +55,20 @@ async function POST(req) {
 }
 
 async function GET(req) {
+  const { searchParams } = new URL(req.url);
+  const sessionId = searchParams.get('session_id');
+  const user_email = searchParams.get('user_email');
+
   try {
-    const session = await stripe.checkout.sessions.retrieve(
-      req.query.session_id
-    );
+    const session = await retrieveSession(sessionId, user_email);
 
     return NextResponse.json(
       {
         customer_email: session.customer_details.email,
+        customer_id: session.customer,
       },
       {
-        status: session.status,
+        status: 200,
       }
     );
   } catch (err) {

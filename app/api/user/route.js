@@ -1,6 +1,8 @@
 // pages/api/getUser.js
 import { sql } from "@vercel/postgres";
 import { NextResponse } from "next/server";
+
+//returns a user
 export async function POST(req) {
   const { email } = await req.json(); // get email from query parameters
 
@@ -11,7 +13,7 @@ export async function POST(req) {
 
     // If user exists, return the user
     if (rows.length > 0) {
-      return NextResponse.json({ data: rows[0] }, { status: 200 });
+      return NextResponse.json({ user: rows[0] }, { status: 200 });
     } else {
       // If user doesn't exist, return an error
       return NextResponse.json({ error: "User not found" }, { status: 404 });
