@@ -79,9 +79,7 @@ export default function Page() {
 
   if(loading) return <p>Loading...</p>
 
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
+  if (isLoading) return <div>Loading...</div>
 
   return (
     <div className="w-full h-full flex bg-white rounded shadow-xl p-5 overflow-y-auto">
@@ -101,8 +99,7 @@ export default function Page() {
           </div>
           {newAccount && (
             <h3 className="text-md font-semibold mb-2">
-              adding account for {newAccount.data.name} please check back in an
-              hour
+              adding account for {newAccount.data.name}, we will send you an email when your analysis is ready.
             </h3>
           )}
           <Button

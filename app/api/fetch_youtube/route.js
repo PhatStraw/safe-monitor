@@ -10,7 +10,7 @@ const openai = new OpenAI({
 
 export const preferredRegion = "iad1";
 
-export const maxDuration = 300
+export const maxDuration = 300;
 
 // This function fetches YouTube data using the provided authentication credentials
 async function fetchYoutubeData(auth) {
@@ -240,28 +240,31 @@ async function summarizeContent(data, email) {
 // This function handles POST requests
 export async function POST(request) {
   try {
-    const { secondary_row } = await request.json()
+    const { secondary_row } = await request.json();
 
     const youtubeData = await fetchYoutubeData({
-        access_token: secondary_row.access_token,
-        refresh_token: secondary_row.refresh_token,
-      });
-      
-      const summarizedData = await summarizeContent(youtubeData, secondary_row.email);
-  
-      if (summarizedData) {
-        summarizedData.timestamp = new Date().toISOString();
-        await sql`UPDATE secondaryaccounts SET youtube_data = ${JSON.stringify(
-          summarizedData
-        )} WHERE account_id = ${secondary_row.account_id}`;
-        console.log("++++SAVED++++");
-      }
-  
-      // Return a successful response with the name and secondary ID
-      return NextResponse.json(
-        { data: { name: secondary_row.name, secondaryId: account_id } },
-        { status: 200 }
-      );
+      access_token: secondary_row.access_token,
+      refresh_token: secondary_row.refresh_token,
+    });
+
+    const summarizedData = await summarizeContent(
+      youtubeData,
+      secondary_row.email
+    );
+
+    if (summarizedData) {
+      summarizedData.timestamp = new Date().toISOString();
+      await sql`UPDATE secondaryaccounts SET youtube_data = ${JSON.stringify(
+        summarizedData
+      )} WHERE account_id = ${secondary_row.account_id}`;
+      console.log("++++SAVED++++");
+    }
+
+    // Return a successful response with the name and secondary ID
+    return NextResponse.json(
+      { data: { name: secondary_row.name, secondaryId: account_id } },
+      { status: 200 }
+    );
   } catch (error) {
     // If an error occurs, log the error and return an error response
     console.error("Error in POST function:", error);
