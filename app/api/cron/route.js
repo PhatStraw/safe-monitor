@@ -1,6 +1,12 @@
 import { sql } from "@vercel/postgres";
 import { NextResponse } from "next/server";
+import { google } from "googleapis";
+import OpenAI from "openai";
+import nodemailer from "nodemailer";
 
+const openai = new OpenAI({
+  openAIApiKey: process.env.OPENAI_API_KEY,
+});
 async function fetchYoutubeData(auth) {
   const oauth2Client = new google.auth.OAuth2(
     process.env.NEXT_PUBLIC_GOOGLE_ID,
@@ -238,18 +244,18 @@ async function summarizeContent(data, email) {
 }
 
 export async function GET(request) {
-  const authHeader = request.headers.get("authorization");
-  if (
-    !process.env.CRON_SECRET ||
-    authHeader !== `Bearer ${process.env.CRON_SECRET}`
-  ) {
-    return NextResponse.json(
-      { success: false },
-      {
-        status: 401,
-      }
-    );
-  }
+//   const authHeader = request.headers.get("authorization");
+//   if (
+//     !process.env.CRON_SECRET ||
+//     authHeader !== `Bearer ${process.env.CRON_SECRET}`
+//   ) {
+//     return NextResponse.json(
+//       { success: false },
+//       {
+//         status: 401,
+//       }
+//     );
+//   }
 
   try {
     const { rows } = await sql`SELECT * FROM secondaryaccounts`;

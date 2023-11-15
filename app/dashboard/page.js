@@ -11,6 +11,15 @@ export default function Dashboard() {
     email: session?.user?.email,
   });
 
+  const tailStr = (str) => {
+    let newStr;
+    if (str.length > 14) {
+      newStr = str.slice(0, 10);
+      return newStr + "...";
+    }
+    return str;
+  };
+
   if (isLoading) {
     return <div>Loading...</div>; // Replace with your loading component
   }
@@ -21,36 +30,32 @@ export default function Dashboard() {
         {secondaryAccounts.data.map((account) => (
           <div key={account.account_id} className="mb-10 border-b pb-3">          
             <div className="flex flex-col lg:flex-row justify-between p-6">            
-              <h3 className="text-2xl font-bold mb-2">
-                YouTube Activity Summary
+              <h3 className="text-2xl font-bold mb-4 text-center">
+                Activity Summary ({tailStr(account.email)})
               </h3>
-              
-              <h2 className="text-2xl font-semibold mb-2">
-                {account.name} ({account.email})
-              </h2>
             </div>
 
             <DropDown title={"Content Analysis"} account={account} />
 
             <div className="bg-white shadow-lg border rounded-lg p-6 mb-3">           
-              <h4 className="text-lg font-semibold mb-1">
+              <h4 className="text-2xl font-semibold mb-3">
                 Psychological Analysis
               </h4>
 
-              <p className="mb-3 bg-white p-1 border shadow rounded-lg text-start">
+              <p className="mb-3 text-sm bg-white p-2 border shadow rounded-lg text-start">
                 {account.youtube_data?.email_newsletter.psych_analysis.overview}
               </p>
             </div>
 
             <div className="bg-white shadow-lg rounded-lg border p-6 mb-3">     
-              <h5 className="text-lg font-lg font-bold mb-1">
+              <h5 className="text-2xl font-lg font-bold mb-3">
                 Topics to Discuss
               </h5>
 
               <ul className="list-inside mb-3">
                 {account.youtube_data?.email_newsletter.psych_analysis.topics_to_discuss.map(
                   (topic, index) => (
-                    <li key={index} className="text-md border-b my-1 p-1">
+                    <li key={index} className="text-sm border-b my-3 py-2">
                       {topic}
                     </li>
                   )
