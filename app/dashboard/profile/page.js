@@ -126,7 +126,7 @@ console.log(activeUser)
             className="text-white hover:bg-primary/60 transition duration-200"
             onClick={handleGoogleSignIn}
           >
-            Connect with Google
+            Connect Child
           </Button>
         </section>
         <section className="mb-8 " id="parent-email">
