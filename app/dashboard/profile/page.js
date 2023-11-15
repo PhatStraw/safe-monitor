@@ -1,4 +1,4 @@
-'use client'
+"use client";
 import React from "react";
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import useSecondaryAccounts from "@/components/hooks/UseSecondaryAccounts";
 import { toast } from "react-hot-toast";
 import Link from "next/link";
+import useActiveUser from "@/components/hooks/UseActiveUser";
 
 function handleGoogleSignIn() {
   const redirectUri = process.env.NEXT_PUBLIC_GOOGLE_REDIRECT_URI; // Replace with your redirect URI
@@ -19,16 +20,16 @@ function handleGoogleSignIn() {
   window.location.href = authUrl;
 }
 
-
 export default function Page() {
   const { data: session, status } = useSession();
   const email = session?.user.email; // replace with actual user_id
+  const activeUser = useActiveUser(email);
   const { data: secondaryAccounts, isLoading } = useSecondaryAccounts({
     email,
   });
   const [newAccount, setNewAccount] = useState();
   const loading = status === "loading";
-
+console.log(activeUser)
   useEffect(() => {
     const createSecondaryFromCode = async (code) => {
       // Create a loading toast
@@ -77,9 +78,26 @@ export default function Page() {
     return str;
   };
 
-  if(loading) return <p>Loading...</p>
+  const handleBilling = async () => {
+    console.log("========ID=======", activeUser?.stripe_id)
+    const response = await fetch("/api/portal", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        customerId: activeUser?.stripe_id, // replace with the customer's ID
+      }),
+    });
 
-  if (isLoading) return <div>Loading...</div>
+    const { url } = await response.json();
+
+    window.location.assign(url);
+  };
+
+  if (loading) return <p>Loading...</p>;
+
+  if (isLoading) return <div>Loading...</div>;
 
   return (
     <div className="w-full h-full flex bg-white rounded shadow-xl p-5 overflow-y-auto">
@@ -99,7 +117,8 @@ export default function Page() {
           </div>
           {newAccount && (
             <h3 className="text-md font-semibold mb-2">
-              adding account for {newAccount.data.name}, we will send you an email when your analysis is ready.
+              adding account for {newAccount.data.name}, we will send you an
+              email when your analysis is ready.
             </h3>
           )}
           <Button
@@ -110,17 +129,27 @@ export default function Page() {
             Connect with Google
           </Button>
         </section>
-        <section className="mb-8" id="parent-email">
+        <section className="mb-8 " id="parent-email">
           <h2 className="text-xl font-semibold mb-4">Billing</h2>
-          <Link
-            className="bg-primary w-96 rounded text-center px-20 p-2 text-white hover:bg-primary/60 transition duration-200"
-            href={"/billing"}
-          >
-            Start
-          </Link>
+          <div className="flex flex-col w-44">
+            <Link
+              className="bg-primary font-semibold text-sm rounded text-center  p-2 text-white hover:bg-primary/60 transition duration-200 mb-1"
+              href={"/billing"}
+            >
+              Connect Card
+            </Link>
+            {activeUser?.stripe_id && (
+              <Button
+                id="google-signin"
+                className="text-white font-semibold hover:bg-primary/60 transition duration-200"
+                onClick={handleBilling}
+              >
+                Update Account
+              </Button>
+            )}
+          </div>
         </section>
       </main>
     </div>
   );
 }
-

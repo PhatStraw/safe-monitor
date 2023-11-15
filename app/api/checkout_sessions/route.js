@@ -31,7 +31,7 @@ async function retrieveSession(sessionId, userEmail) {
   await sql`
     UPDATE Users
     SET is_subscribed = true,
-        stripe_id = ${sessionId}
+        stripe_id = ${session.customer}
     WHERE email = ${userEmail}
   `;
   return session
