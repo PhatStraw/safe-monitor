@@ -387,7 +387,7 @@ export async function POST(request) {
     const { rows } =
       await sql`SELECT * FROM secondaryaccounts WHERE account_id = ${account_id}`;
 
-    fetch("http://localhost:3000/api/fetch_youtube", {
+    fetch(`${process.env.NEXT_PUBLIC_GOOGLE_REDIRECT_URI}/api/fetch_youtube`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
