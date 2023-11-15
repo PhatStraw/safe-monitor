@@ -8,10 +8,7 @@ const openai = new OpenAI({
   openAIApiKey: process.env.OPENAI_API_KEY,
 });
 
-export const config = {
-  runtime: 'edge',
-  regions: 'iad1', // optional
-};
+export const runtime = "edge"
 
 // This function fetches an access token from Google's OAuth2 server
 async function fetchToken(code) {
