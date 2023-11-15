@@ -58,20 +58,24 @@ async function fetchYoutubeData(auth) {
   // For each subscription, fetch the last uploaded video
   for (let i = 0; i < data.subscriptions.length; i++) {
     const channelId = data.subscriptions[i].snippet.resourceId.channelId;
-    const uploadsResponse = await service.search
-      .list({
-        auth: oauth2Client,
-        part: "snippet",
-        channelId: channelId,
-        type: "video",
-        order: "date", // to ensure the latest video comes first
-        maxResults: 1,
-      })
-      .catch((err) =>
-        console.error(
-          "Error retrieving last uploaded video for each subscription: " + err
-        )
-      );
+    // Fetch the channel's uploads playlist ID
+    const channelResponse = await service.channels.list({
+      auth: oauth2Client,
+      part: "contentDetails",
+      id: channelId,
+    });
+
+    const uploadsId =
+      channelResponse.data.items[0].contentDetails.relatedPlaylists.uploads;
+
+    // Fetch the most recent video from the uploads playlist
+    const uploadsResponse = await service.playlistItems.list({
+      auth: oauth2Client,
+      part: "snippet",
+      playlistId: uploadsId,
+      maxResults: 1,
+    });
+
     data.subscriptions[i].lastUploadedVideo = uploadsResponse.data.items[0];
   }
 
@@ -246,12 +250,12 @@ export async function POST(request) {
       access_token: secondary_row.access_token,
       refresh_token: secondary_row.refresh_token,
     });
-console.log("=========youtubeData=========", youtubeData)
+    console.log("=========youtubeData=========", youtubeData);
     const summarizedData = await summarizeContent(
       youtubeData,
       secondary_row.email
     );
-    console.log("=========summarizedData=========", summarizedData)
+    console.log("=========summarizedData=========", summarizedData);
 
     if (summarizedData) {
       summarizedData.timestamp = new Date().toISOString();
