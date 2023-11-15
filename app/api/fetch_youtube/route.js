@@ -10,6 +10,8 @@ const openai = new OpenAI({
 
 export const preferredRegion = "iad1";
 
+export const maxDuration = 300
+
 // This function fetches YouTube data using the provided authentication credentials
 async function fetchYoutubeData(auth) {
   // Create an OAuth2 client with the client ID, client secret, and redirect URI
