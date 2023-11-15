@@ -30,12 +30,16 @@ console.log(session)
 //     )
 //   }
 
-  if (customerEmail) {
+if (customerEmail) {
+    setTimeout(() => {
+      redirect('/dashboard/profile'); // specify the path you want to redirect to
+    }, 8000);
+  
     return (
-      <section id="success">
-        <p>
+      <section id="success" className='w-full'>
+        <p className='w-full text-center'>
           We appreciate your business! A confirmation email will be sent to {customerEmail}.
-
+  
           If you have any questions, please email <a href="mailto:kevindsimsjr@gmail.com">kevindsimsjr@gmail.com</a>.
         </p>
       </section>
