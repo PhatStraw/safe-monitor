@@ -1,7 +1,7 @@
 import nodemailer from "nodemailer";
 
-export async function sendMail(data, email){
-      // Create a transporter for sending the email
+export async function sendMail(data, email) {
+  // Create a transporter for sending the email
   let transporter = nodemailer.createTransport({
     service: "gmail",
     auth: {
@@ -9,8 +9,19 @@ export async function sendMail(data, email){
       pass: process.env.NEXT_PUBLIC_EMAIL_PASS,
     },
   });
-  console.log("transport",transporter)
-
+  console.log("transport", transporter);
+  await new Promise((resolve, reject) => {
+    // verify connection configuration
+    transporter.verify(function (error, success) {
+      if (error) {
+        console.log(error);
+        reject(error);
+      } else {
+        console.log("Server is ready to take our messages");
+        resolve(success);
+      }
+    });
+  });
   // Define the options for the email
   let mailOptions = {
     from: process.env.NEXT_PUBLIC_EMAIL,
@@ -62,13 +73,16 @@ export async function sendMail(data, email){
         </html>
       `,
   };
-
-  transporter.sendMail(mailOptions, function (error, info) {
-    if (error) {
-  console.log("trahefwef")
-      console.log(error);
-    } else {
-      console.log("Email sent: " + info.response);
-    }
+  await new Promise((resolve, reject) => {
+    transporter.sendMail(mailOptions, function (error, info) {
+      if (error) {
+        console.log("trahefwef");
+        console.log(error);
+        reject(error);
+      } else {
+        console.log("Email sent: " + info.response);
+        resolve(info);
+      }
+    });
   });
 }
