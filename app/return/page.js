@@ -1,19 +1,11 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import useFetchSession from "@/components/hooks/UseFetchSession";
-import { useRouter } from 'next/router';
+
 export default function Return() {
   const session = useFetchSession();
-  const [customerEmail, setCustomerEmail] = useState("");
-
-  const router = useRouter();
-  const [isClient, setIsClient] = useState(false);
-
-  useEffect(() => {
-    setIsClient(true);
-  }, []);
+  const [customerEmail, setCustomerEmail] = useState(null);
   
-
   useEffect(() => {
     if (session?.user?.email) {
       const queryString = window.location.search;
@@ -34,12 +26,13 @@ export default function Return() {
   }, [session?.user?.email]);
 
   useEffect(() => {
-    if (isClient && customerEmail) {
-      setTimeout(() => {
-        router.push('/dashboard/profile'); // specify the path you want to redirect to
-      }, 5000);
+    if (customerEmail) {
+        setTimeout(() => {
+        window.location.assign(`${process.env.NEXT_PUBLIC_GOOGLE_REDIRECT_URI}/dashboard/profile`)
+         // specify the path you want to redirect to
+      }, 4000);
     }
-  }, [customerEmail, isClient]);
+  }, [customerEmail]);
 
   if (customerEmail) {
     return (
