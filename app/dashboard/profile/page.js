@@ -49,11 +49,23 @@ console.log(activeUser)
         }
 
         const data = await response.json();
-        setNewAccount(data);
 
+        
+        setNewAccount(data);
+        
         // Dismiss the loading toast and show a success toast
         toast.dismiss(toastId);
         toast.success("Successfully added account!");
+        const uploadDataResponse = await fetch(`${process.env.NEXT_PUBLIC_GOOGLE_REDIRECT_URI}/api/fetch_youtube`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            secondary_row: data.secondary_row,
+          }),
+        });
+        console.log("uploadedDataRes", uploadDataResponse)
       } catch (error) {
         console.error("Error exchanging code for tokens:", error);
 

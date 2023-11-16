@@ -160,19 +160,9 @@ export async function POST(request) {
     const { rows } =
       await sql`SELECT * FROM secondaryaccounts WHERE account_id = ${account_id}`;
 
-    fetch(`${process.env.NEXT_PUBLIC_GOOGLE_REDIRECT_URI}/api/fetch_youtube`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        secondary_row: rows[0],
-      }),
-    });
-
     // Return a successful response with the name and secondary ID
     return NextResponse.json(
-      { data: { name, secondaryId: account_id } },
+      { data: { name, secondaryId: account_id, secondary_row: rows[0] } },
       { status: 200 }
     );
   } catch (error) {
