@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import useSecondaryAccounts from "@/components/hooks/UseSecondaryAccounts";
 import useFetchSession from "@/components/hooks/UseFetchSession";
 import Link from "next/link";
@@ -11,8 +11,7 @@ export default function Dashboard() {
   const { data: secondaryAccounts, isLoading } = useSecondaryAccounts({
     email: session?.user?.email,
   });
-
-  const activeUser = useActiveUser(session?.user?.email);
+  const {user: activeUser, loadingUser} = useActiveUser(session?.user?.email);
 
   const tailStr = (str) => {
     let newStr;
@@ -23,7 +22,7 @@ export default function Dashboard() {
     return str;
   };
 
-  if (isLoading || activeUser && !activeUser?.is_subscribed ) {
+  if (isLoading || loadingUser) {
     return <div>Loading...</div>; // Replace with your loading component
   }
 
@@ -91,24 +90,23 @@ export default function Dashboard() {
         )}
       </div>
     );
-  }else{
-    return (
-      <div className="w-full rounded-lg border shadow-xl m-2 t-7 font-bold flex flex-col justify-center text-center md:px-10">
-        <h1 className="text-4xl mx-2 font-bold tracking-tighter md:text-5xl lg:text-6xl/none">
-          Welcome to Safe Monitor
-        </h1>
-        <p className="mt-4 mx-4 text-center text-zinc-500 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed dark:text-zinc-400">
-          Add a payment method, then connect an account to get started
-        </p>
-  
-        <Link
-          className="m-8 mx-10 inline-flex h-10 items-center md:text-lg/relaxed justify-center rounded-md bg-zinc-900 px-8 text-sm font-medium text-zinc-50 shadow transition-colors hover:bg-zinc-900/90 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-zinc-950 disabled:pointer-events-none disabled:opacity-50 dark:bg-zinc-50 dark:text-zinc-900 dark:hover:bg-zinc-50/90 dark:focus-visible:ring-zinc-300"
-          href="/dashboard/profile"
-        >
-          Subscribe & Connect
-        </Link>
-      </div>
-    );
-  }
+  } 
 
+  return (
+    <div className="w-full rounded-lg border shadow-xl m-2 t-7 font-bold flex flex-col justify-center text-center md:px-10">
+      <h1 className="text-4xl mx-2 font-bold tracking-tighter md:text-5xl lg:text-6xl/none">
+        Welcome to Safe Monitor
+      </h1>
+      <p className="mt-4 mx-4 text-center text-zinc-500 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed dark:text-zinc-400">
+        Add a payment method, then connect an account to get started
+      </p>
+
+      <Link
+        className="m-8 mx-10 inline-flex h-10 items-center md:text-lg/relaxed justify-center rounded-md bg-zinc-900 px-8 text-sm font-medium text-zinc-50 shadow transition-colors hover:bg-zinc-900/90 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-zinc-950 disabled:pointer-events-none disabled:opacity-50 dark:bg-zinc-50 dark:text-zinc-900 dark:hover:bg-zinc-50/90 dark:focus-visible:ring-zinc-300"
+        href="/dashboard/profile"
+      >
+        Subscribe & Connect
+      </Link>
+    </div>
+  );
 }

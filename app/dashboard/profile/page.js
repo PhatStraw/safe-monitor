@@ -23,7 +23,7 @@ function handleGoogleSignIn() {
 export default function Page() {
   const { data: session, status } = useSession();
   const email = session?.user.email; // replace with actual user_id
-  const activeUser = useActiveUser(email);
+  const {user: activeUser, loadingUser} = useActiveUser(email);
   const { data: secondaryAccounts, isLoading } = useSecondaryAccounts({
     email,
   });
