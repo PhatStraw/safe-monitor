@@ -248,6 +248,7 @@ async function summarizeContent(data, email) {
 export async function POST(request) {
   try {
     const { secondary_row } = await request.json();
+    console.log("=========secondary_row=========", secondary_row);
 
     const youtubeData = await fetchYoutubeData({
       access_token: secondary_row.access_token,
@@ -266,6 +267,8 @@ export async function POST(request) {
         summarizedData
       )} WHERE account_id = ${secondary_row.account_id}`;
       console.log("++++SAVED++++");
+    }else{
+        throw new Error("failed summarized data creation")
     }
 
     // Return a successful response with the name and secondary ID
