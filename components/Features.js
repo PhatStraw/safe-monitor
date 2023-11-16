@@ -2,7 +2,7 @@ import Link from "next/link";
 
 export default function Features() {
   return (
-    <div id="features" className="max-w-7xl mb-[14rem] px-6 mx-auto">
+    <div id="features" className="max-w-7xl mb-[12rem] px-6 mx-auto">
       <div>
         <div className="text-center lg:text-start  lg:w-1/2">
           <svg
