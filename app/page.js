@@ -1,4 +1,5 @@
 "use client";
+import Features from "@/components/Features";
 import useFetchSession from "@/components/hooks/UseFetchSession";
 import Link from "next/link";
 import { redirect } from "next/navigation";
@@ -30,7 +31,7 @@ export default function Home() {
           <div className="blur-[106px] h-56 bg-gradient-to-br from-primary to-purple-400 dark:from-blue-700"></div>
           <div className="blur-[106px] h-32 bg-gradient-to-r from-cyan-400 to-sky-300 dark:to-indigo-600"></div>
         </div>
-        <div className="max-w-7xl mx-auto px-6 md:px-12 xl:px-6">
+        <div className="max-w-7xl mb-[14rem] mx-auto px-6 md:px-12 xl:px-6">
           <div className="relative pt-36 ml-auto">
             <div className="lg:w-2/3 text-center mx-auto">
               <h1 className="text-gray-900 dark:text-white font-bold text-5xl md:text-6xl xl:text-7xl">
@@ -67,27 +68,31 @@ export default function Home() {
               <div className="hidden py-8 mt-16 border-y border-gray-100 dark:border-gray-800 sm:flex justify-between">
                 <div className="text-left">
                   <h6 className="text-lg font-semibold text-gray-700 dark:text-white">
-                    The lowest price
+                    Unbeatable Value
                   </h6>
                   <p className="mt-2 mr-2 text-gray-500">
-                    The cheapest option when it comes to monitoring your child
+                    Experience top-tier child monitoring at the most affordable
+                    price. Get premium features without stretching your budget.
                   </p>
                 </div>
                 <div className="text-left">
                   <h6 className="text-lg font-semibold text-gray-700 dark:text-white">
-                    The fastest on the market
+                    Lightning-Fast Setup
                   </h6>
                   <p className="mt-2 mr-4 text-gray-500">
-                    Sign up today and recieve your first newsletter in under an
-                    hour!
+                    Jumpstart your journey to smarter parenting in no time.
+                    Register now and receive your first insightful update in
+                    under an hour!
                   </p>
                 </div>
                 <div className="text-left">
                   <h6 className="text-lg font-semibold text-gray-700 dark:text-white">
-                    The most loved
+                    Globally Trusted by Parents
                   </h6>
                   <p className="mt-2 mr-4 text-gray-500">
-                    Used and loved by hundreds of parents all over the world!
+                    Join a worldwide community of satisfied parents who trust us
+                    to add value, insight, and peace of mind to their parenting
+                    experience.
                   </p>
                 </div>
               </div>
@@ -95,6 +100,7 @@ export default function Home() {
           </div>
         </div>
       </div>
+      <Features />
     </>
   );
 }
