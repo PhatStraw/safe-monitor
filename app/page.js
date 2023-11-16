@@ -1,4 +1,5 @@
 "use client";
+import CallToAction from "@/components/CallToAction";
 import Features from "@/components/Features";
 import useFetchSession from "@/components/hooks/UseFetchSession";
 import Link from "next/link";
@@ -101,6 +102,7 @@ export default function Home() {
         </div>
       </div>
       <Features />
+      <CallToAction />
     </>
   );
 }
