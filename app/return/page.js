@@ -30,7 +30,7 @@ export default function Return() {
         setTimeout(() => {
         window.location.assign(`${process.env.NEXT_PUBLIC_GOOGLE_REDIRECT_URI}/dashboard/profile`)
          // specify the path you want to redirect to
-      }, 4000);
+      }, 3000);
     }
   }, [customerEmail]);
 
