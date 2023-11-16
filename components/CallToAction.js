@@ -7,8 +7,7 @@ export default function CallToAction() {
         Get Started now
       </h1>
       <p class="text-center text-xl text-gray-600 dark:text-gray-300">
-        Be part of millions people around the world using tailus in modern User
-        Interfaces.
+        Be part of millions people around the world using Safe Monitor
       </p>
       <div class="flex flex-wrap justify-center gap-6">
         <Link
