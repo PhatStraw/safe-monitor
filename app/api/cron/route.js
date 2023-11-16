@@ -256,50 +256,54 @@ export async function GET(request) {
 //       }
 //     );
 //   }
-
-  try {
-    const { rows } = await sql`SELECT * FROM secondaryaccounts`;
-    const updates = rows.map(async (account) => {
-      const { access_token, refresh_token, youtube_data } = account;
-
-      if (youtube_data?.timestamp) {
-        // Parse the timestamp and check if it's at least 5 days old
-        const timestamp = new Date(youtube_data.timestamp);
-        const now = new Date();
-        const fiveDaysInMilliseconds = 5 * 24 * 60 * 60 * 1000;
-
-        if (now - timestamp < fiveDaysInMilliseconds) {
-          // If the timestamp is less than 5 days old, skip this account
-          return;
-        }
-      }
-
-      const youtubeData = await fetchYoutubeData({
-        access_token,
-        refresh_token,
+    try {
+      // Get all users who are subscribed
+      const { rows: users } = await sql`SELECT * FROM users WHERE is_subscribed = true`;
+  
+      // For each subscribed user, get their secondary accounts and process them
+      const updates = users.flatMap(async (user) => {
+        const { rows: accounts } = await sql`SELECT * FROM secondaryaccounts WHERE user_id = ${user.id}`;
+  
+        return accounts.map(async (account) => {
+          const { access_token, refresh_token, youtube_data } = account;
+  
+          if (youtube_data?.timestamp) {
+            const timestamp = new Date(youtube_data.timestamp);
+            const now = new Date();
+            const fiveDaysInMilliseconds = 5 * 24 * 60 * 60 * 1000;
+  
+            if (now - timestamp < fiveDaysInMilliseconds) {
+              return;
+            }
+          }
+  
+          const youtubeData = await fetchYoutubeData({
+            access_token,
+            refresh_token,
+          });
+  
+          const summarizedData = await summarizeContent(youtubeData, account.email);
+  
+          if (!summarizedData) return { data: { error: "no summary to save" } };
+  
+          summarizedData.timestamp = new Date().toISOString();
+  
+          await sql`UPDATE secondaryaccounts SET youtube_data = ${JSON.stringify(
+            summarizedData
+          )} WHERE account_id = ${account.account_id}`;
+  
+          return {
+            data: { success: "done" },
+          };
+        });
       });
-
-      const summarizedData = await summarizeContent(youtubeData, account.email);
-
-      if (!summarizedData) return { data: { error: "no summary to save" } };
-
-      summarizedData.timestamp = new Date().toISOString();
-
-      await sql`UPDATE secondaryaccounts SET youtube_data = ${JSON.stringify(
-        summarizedData
-      )} WHERE account_id = ${rows[0].account_id}`;
-
-      return {
-        data: { success: "done" },
-      };
-    });
-
-    return NextResponse.json(
-      { message: "cron done" },
-      { status: 200 }
-    );
-  } catch (error) {
-    console.log("/api/cron", error);
-    return NextResponse.json({ error }, { status: 500 });
+  
+      return NextResponse.json(
+        { message: "cron done" },
+        { status: 200 }
+      );
+    } catch (error) {
+      console.log("/api/cron", error);
+      return NextResponse.json({ error }, { status: 500 });
+    }
   }
-}
