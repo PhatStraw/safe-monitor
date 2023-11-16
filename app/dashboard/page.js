@@ -27,7 +27,7 @@ export default function Dashboard() {
     return <div>Loading...</div>; // Replace with your loading component
   }
 
-  if (secondaryAccounts.data && user.is_subscribed) {
+  if (secondaryAccounts.data && activeUser?.is_subscribed) {
     return (
       <div className="overflow-auto bg-primary/20 shadow p-5 w-full rounded-lg">
         {secondaryAccounts.data.map((account, index) =>
@@ -101,7 +101,7 @@ export default function Dashboard() {
       <p className="mt-4 mx-4 text-center text-zinc-500 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed dark:text-zinc-400">
         Add a payment method, then connect an account to get started
       </p>
-      
+
       <Link
         className="m-8 mx-10 inline-flex h-10 items-center md:text-lg/relaxed justify-center rounded-md bg-zinc-900 px-8 text-sm font-medium text-zinc-50 shadow transition-colors hover:bg-zinc-900/90 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-zinc-950 disabled:pointer-events-none disabled:opacity-50 dark:bg-zinc-50 dark:text-zinc-900 dark:hover:bg-zinc-50/90 dark:focus-visible:ring-zinc-300"
         href="/dashboard/profile"

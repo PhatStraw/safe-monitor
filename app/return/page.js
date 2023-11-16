@@ -1,11 +1,12 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { redirect } from "next/navigation";
 import useFetchSession from "@/components/hooks/UseFetchSession";
-
+import { useRouter } from 'next/router';
 export default function Return() {
   const session = useFetchSession();
   const [customerEmail, setCustomerEmail] = useState("");
+
+  const router = useRouter();
 
   useEffect(() => {
     if (session?.user?.email) {
@@ -26,10 +27,11 @@ export default function Return() {
     }
   }, [session?.user?.email]);
 
-  useEffect(() => {
+ useEffect(() => {
+    console.log(customerEmail); // Debug log
     if (customerEmail) {
       setTimeout(() => {
-        redirect("/dashboard/profile"); // specify the path you want to redirect to
+        router.push('/dashboard/profile'); // specify the path you want to redirect to
       }, 5000);
     }
   }, [customerEmail]);
