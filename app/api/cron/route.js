@@ -244,18 +244,18 @@ async function summarizeContent(data, email) {
 }
 
 export async function GET(request) {
-//   const authHeader = request.headers.get("authorization");
-//   if (
-//     !process.env.CRON_SECRET ||
-//     authHeader !== `Bearer ${process.env.CRON_SECRET}`
-//   ) {
-//     return NextResponse.json(
-//       { success: false },
-//       {
-//         status: 401,
-//       }
-//     );
-//   }
+  const authHeader = request.headers.get("authorization");
+  if (
+    !process.env.CRON_SECRET ||
+    authHeader !== `Bearer ${process.env.CRON_SECRET}`
+  ) {
+    return NextResponse.json(
+      { success: false },
+      {
+        status: 401,
+      }
+    );
+  }
     try {
       // Get all users who are subscribed
       const { rows: users } = await sql`SELECT * FROM users WHERE is_subscribed = true`;

@@ -43,7 +43,7 @@ async function fetchYoutubeData(auth) {
     })
     .catch((err) => console.error("Error retrieving liked videos: " + err));
   data.likedVideos = likedVideosResponse.data.items;
-
+console.log("========likedVideosResponse========",likedVideosResponse)
   // Fetch the user's subscriptions
   const subscriptionsResponse = await service.subscriptions
     .list({
@@ -54,6 +54,7 @@ async function fetchYoutubeData(auth) {
     })
     .catch((err) => console.error("Error retrieving subscriptions: " + err));
   data.subscriptions = subscriptionsResponse.data.items;
+  console.log("========subscriptionsResponse========",subscriptionsResponse)
 
   // For each subscription, fetch the last uploaded video
   for (let i = 0; i < data.subscriptions.length; i++) {
@@ -64,6 +65,7 @@ async function fetchYoutubeData(auth) {
       part: "contentDetails",
       id: channelId,
     });
+    console.log("========channelResponse========",channelResponse)
 
     const uploadsId =
       channelResponse.data.items[0].contentDetails.relatedPlaylists.uploads;
@@ -75,6 +77,7 @@ async function fetchYoutubeData(auth) {
       playlistId: uploadsId,
       maxResults: 1,
     });
+    console.log("========uploadsResponse========",uploadsResponse)
 
     data.subscriptions[i].lastUploadedVideo = uploadsResponse.data.items[0];
   }
