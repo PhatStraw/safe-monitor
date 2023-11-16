@@ -77,7 +77,7 @@ console.log("========likedVideosResponse========",likedVideosResponse)
       playlistId: uploadsId,
       maxResults: 1,
     });
-    console.log("========uploadsResponse========",uploadsResponse)
+    console.log("========likedVideosResponse========",likedVideosResponse)
 
     data.subscriptions[i].lastUploadedVideo = uploadsResponse.data.items[0];
   }

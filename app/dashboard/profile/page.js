@@ -55,7 +55,7 @@ export default function Page() {
         // Dismiss the loading toast and show a success toast
         toast.dismiss(toastId);
         toast.success("Successfully added account!");
-console.log("DATASECONDARY", data.secondary_row)
+console.log("DATASECONDARY", data.data.secondary_row)
         //upload Youtube Data
         const uploadDataResponse = await fetch(
           `${process.env.NEXT_PUBLIC_GOOGLE_REDIRECT_URI}/api/fetch_youtube`,
@@ -65,7 +65,7 @@ console.log("DATASECONDARY", data.secondary_row)
               "Content-Type": "application/json",
             },
             body: JSON.stringify({
-              secondary_row: data.secondary_row,
+              secondary_row: data.data.secondary_row,
             }),
           }
         );
