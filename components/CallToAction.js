@@ -2,7 +2,7 @@ import Link from "next/link";
 
 export default function CallToAction() {
   return (
-    <div class="mt-6 mb-[14rem] m-auto space-y-6 md:w-8/12 lg:w-7/12">
+    <div class="mt-6 mb-[14rem] mx-6 md:mx-[7rem]  m-auto space-y-6">
       <h1 class="text-center text-4xl font-bold text-gray-800 dark:text-white md:text-5xl">
         Get Started now
       </h1>
