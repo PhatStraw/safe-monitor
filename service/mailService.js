@@ -5,14 +5,15 @@ export async function sendMail(data, email){
   let transporter = nodemailer.createTransport({
     service: "gmail",
     auth: {
-      user: process.env.EMAIL,
-      pass: process.env.EMAIL_PASS,
+      user: process.env.NEXT_PUBLIC_EMAIL,
+      pass: process.env.NEXT_PUBLIC_EMAIL_PASS,
     },
   });
+  console.log("transport",transporter)
 
   // Define the options for the email
   let mailOptions = {
-    from: process.env.EMAIL,
+    from: process.env.NEXT_PUBLIC_EMAIL,
     to: email,
     subject:
       "Your Child's Recent YouTube Activity - Insightful Overview and Discussion Topics",
@@ -64,6 +65,7 @@ export async function sendMail(data, email){
 
   transporter.sendMail(mailOptions, function (error, info) {
     if (error) {
+  console.log("trahefwef")
       console.log(error);
     } else {
       console.log("Email sent: " + info.response);
