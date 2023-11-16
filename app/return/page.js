@@ -7,6 +7,12 @@ export default function Return() {
   const [customerEmail, setCustomerEmail] = useState("");
 
   const router = useRouter();
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+  
 
   useEffect(() => {
     if (session?.user?.email) {
@@ -27,14 +33,13 @@ export default function Return() {
     }
   }, [session?.user?.email]);
 
- useEffect(() => {
-    console.log(customerEmail); // Debug log
-    if (customerEmail) {
+  useEffect(() => {
+    if (isClient && customerEmail) {
       setTimeout(() => {
         router.push('/dashboard/profile'); // specify the path you want to redirect to
       }, 5000);
     }
-  }, [customerEmail]);
+  }, [customerEmail, isClient]);
 
   if (customerEmail) {
     return (

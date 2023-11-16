@@ -11,8 +11,8 @@ export default function Dashboard() {
   const { data: secondaryAccounts, isLoading } = useSecondaryAccounts({
     email: session?.user?.email,
   });
+
   const activeUser = useActiveUser(session?.user?.email);
-  console.log("========SecondartAccouts==========", secondaryAccounts);
 
   const tailStr = (str) => {
     let newStr;
