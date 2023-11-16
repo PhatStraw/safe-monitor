@@ -15,7 +15,7 @@ export default function CallToAction() {
           class="relative flex h-12 w-full items-center justify-center px-8 before:absolute before:inset-0 before:rounded-full before:bg-primary before:transition before:duration-300 hover:before:scale-105 active:duration-75 active:before:scale-95 sm:w-max"
         >
           <span class="relative text-base font-semibold text-white dark:text-dark">
-            Get Started
+            Get started
           </span>
         </Link>
         <Link
@@ -23,7 +23,7 @@ export default function CallToAction() {
           class="relative flex h-12 w-full items-center justify-center px-8 before:absolute before:inset-0 before:rounded-full before:border before:border-transparent before:bg-primary/10 before:bg-gradient-to-b before:transition before:duration-300 hover:before:scale-105 active:duration-75 active:before:scale-95 dark:before:border-gray-700 dark:before:bg-gray-800 sm:w-max"
         >
           <span class="relative text-base font-semibold text-primary dark:text-white">
-            More about
+            Learn more
           </span>
         </Link>
       </div>
