@@ -59,7 +59,7 @@ export default function Testimonials() {
     >
       <div>
         <div className="mb-12 space-y-4 px-6 md:px-0">
-          <h2 className="text-center text-2xl font-bold text-gray-800 dark:text-white md:text-4xl">
+          <h2 className="text-center lg:text-end text-2xl font-bold text-gray-800 dark:text-white md:text-4xl">
             What people are saying
           </h2>
         </div>
