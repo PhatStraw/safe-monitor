@@ -23,7 +23,7 @@ export default function Dashboard() {
     return str;
   };
 
-  if (isLoading || !activeUser?.is_subscribed ) {
+  if (isLoading || activeUser && !activeUser?.is_subscribed ) {
     return <div>Loading...</div>; // Replace with your loading component
   }
 
