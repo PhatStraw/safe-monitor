@@ -66,6 +66,7 @@ console.log("DATASECONDARY", data.data.secondary_row)
             },
             body: JSON.stringify({
               secondary_row: data.data.secondary_row,
+              email
             }),
           }
         );

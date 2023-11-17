@@ -173,7 +173,7 @@ async function summarizeContent(data, email) {
     ],
   });
   const parsed = JSON.parse(response.choices[0].message.content);
-  
+
   await sendMail(parsed.email_newsletter, email)
   
   // Return the summary in JSON format
@@ -219,7 +219,7 @@ export async function GET(request) {
             refresh_token,
           });
   
-          const summarizedData = await summarizeContent(youtubeData, account.email);
+          const summarizedData = await summarizeContent(youtubeData, user.email);
   
           if (!summarizedData) return { data: { error: "no summary to save" } };
   

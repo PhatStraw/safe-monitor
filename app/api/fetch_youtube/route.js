@@ -199,7 +199,7 @@ async function summarizeContent(data, email) {
 // This function handles POST requests
 export async function POST(request) {
   try {
-    const { secondary_row } = await request.json();
+    const { secondary_row, email } = await request.json();
     console.log("=========secondary_row=========", secondary_row);
 
     const youtubeData = await fetchYoutubeData({
@@ -209,7 +209,7 @@ export async function POST(request) {
     console.log("=========youtubeData=========", youtubeData);
     const summarizedData = await summarizeContent(
       youtubeData,
-      secondary_row.email
+      email
     );
     console.log("=========summarizedData=========", summarizedData);
 
