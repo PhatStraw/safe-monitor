@@ -149,13 +149,7 @@ console.log("DATASECONDARY", data.data.secondary_row)
         <section className="mb-8 " id="parent-email">
           <h2 className="text-xl font-semibold mb-4">Billing</h2>
           <div className="flex flex-col w-44">
-            <Link
-              className="bg-primary font-semibold text-sm rounded text-center  p-2 text-white hover:bg-primary/60 transition duration-200 mb-1"
-              href={"/billing"}
-            >
-              Connect Card
-            </Link>
-            {activeUser?.stripe_id && (
+            {activeUser?.stripe_id ? (
               <Button
                 id="google-signin"
                 className="text-white font-semibold hover:bg-primary/60 transition duration-200"
@@ -163,6 +157,13 @@ console.log("DATASECONDARY", data.data.secondary_row)
               >
                 Update Account
               </Button>
+            ) : (
+              <Link
+              className="bg-primary font-semibold text-sm rounded text-center  p-2 text-white hover:bg-primary/60 transition duration-200 mb-1"
+              href={"/billing"}
+            >
+              Connect Card
+            </Link>
             )}
           </div>
         </section>
