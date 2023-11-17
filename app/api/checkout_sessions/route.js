@@ -11,7 +11,7 @@ async function createSession() {
         line_items: [
           {
             // Provide the exact Price ID (for example, pr_1234) of the product you want to sell
-            price: "price_1OCUcsAlSphatrSrj5EE1naN",
+            price: "price_1OCUKaAlSphatrSruZzmGbqf",
             quantity: 1,
           },
         ],
