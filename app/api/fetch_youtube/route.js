@@ -3,6 +3,7 @@ import { sql } from "@vercel/postgres";
 import { google } from "googleapis";
 import OpenAI from "openai";
 import { sendMail } from "@/service/mailService";
+import crypto from 'crypto';
 
 const openai = new OpenAI({
   openAIApiKey: process.env.OPENAI_API_KEY,
@@ -12,6 +13,20 @@ export const preferredRegion = "iad1";
 
 export const maxDuration = 300;
 
+
+  // Function to decrypt the token
+function decryptToken(hash) {
+    const algorithm = 'aes-256-ctr';
+    const secretKey = process.env.NEXT_PUBLIC_CRYPTO;
+    const key = crypto.scryptSync(secretKey, 'salt', 32); // derive a 32-byte key from the secret key
+  
+    const decipher = crypto.createDecipheriv(algorithm, key, Buffer.from(hash.iv, 'hex'));
+  
+    const decrpyted = Buffer.concat([decipher.update(Buffer.from(hash.content, 'hex')), decipher.final()]);
+  
+    return decrpyted.toString();
+  }
+
 // This function fetches YouTube data using the provided authentication credentials
 async function fetchYoutubeData(auth) {
   // Create an OAuth2 client with the client ID, client secret, and redirect URI
@@ -20,11 +35,15 @@ async function fetchYoutubeData(auth) {
     process.env.NEXT_PUBLIC_GOOGLE_SECRET,
     process.env.NEXT_PUBLIC_GOOGLE_REDIRECT_URI
   );
-
+  const encryptedAccessToken = JSON.parse(auth.access_token);
+  const encryptedRefreshToken = JSON.parse(auth.refresh_token);
+  
+  const accessToken = decryptToken(encryptedAccessToken);
+  const refreshToken = decryptToken(encryptedRefreshToken);
   // Set the credentials on the OAuth2 client
   oauth2Client.setCredentials({
-    access_token: auth.access_token,
-    refresh_token: auth.refresh_token,
+    access_token: accessToken,
+    refresh_token: refreshToken,
     // Optional, provide an expiry_date (milliseconds since the Unix Epoch)
     // expiry_date: (new Date()).getTime() + (1000 * 60 * 60 * 24 * 7)
   });

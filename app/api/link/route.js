@@ -1,12 +1,26 @@
 import { NextResponse } from "next/server";
 import { sql } from "@vercel/postgres";
-import OpenAI from "openai";
+import crypto from 'crypto';
 
-const openai = new OpenAI({
-  openAIApiKey: process.env.OPENAI_API_KEY,
-});
 
 export const preferredRegion = "iad1";
+
+// Function to encrypt the token
+function encryptToken(token) {
+  const algorithm = 'aes-256-ctr';
+  const secretKey = process.env.NEXT_PUBLIC_CRYPTO; // Make sure to store this in your .env file and never expose it
+  const key = crypto.scryptSync(secretKey, 'salt', 32); // derive a 32-byte key from the secret key
+  const iv = crypto.randomBytes(16);
+
+  const cipher = crypto.createCipheriv(algorithm, key, iv);
+
+  const encrypted = Buffer.concat([cipher.update(token), cipher.final()]);
+
+  return {
+    iv: iv.toString('hex'),
+    content: encrypted.toString('hex')
+  };
+}
 
 // This function fetches an access token from Google's OAuth2 server
 async function fetchToken(code) {
@@ -94,11 +108,14 @@ async function saveSecondaryAccount(primary_id, user, data) {
       return { status: 409, message: "Account already exists" };
     } else {
       // If the account does not exist (i.e., the query returned no rows), insert the account into the SecondaryAccounts table
+      const encryptedAccessToken = encryptToken(access_token);
+      const encryptedRefreshToken = encryptToken(refresh_token);
+
       const { rows } = await sql`
-        INSERT INTO SecondaryAccounts (user_id, email, name, access_token, refresh_token)
-        VALUES (${primary_id}, ${email}, ${name}, ${access_token}, ${refresh_token})
-        RETURNING *;
-      `;
+      INSERT INTO secondaryaccounts (user_id, email, name, access_token, refresh_token)
+      VALUES (${primary_id}, ${email}, ${name}, ${JSON.stringify(encryptedAccessToken)}, ${JSON.stringify(encryptedRefreshToken)})
+      RETURNING *;
+    `;
 
       // Return a specific object with the status and the inserted account
       return { status: 200, data: rows[0] };

@@ -35,8 +35,8 @@ const createTables = async () => {
         user_id INTEGER REFERENCES Users(user_id),
         email VARCHAR(255),
         name VARCHAR(255),
-        access_token VARCHAR(255),
-        refresh_token VARCHAR(255),
+        access_token TEXT,
+        refresh_token TEXT,
         youtube_data JSONB
       );
     `);
