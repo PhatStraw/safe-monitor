@@ -6,7 +6,6 @@ const inter = Inter({ subsets: ["latin"] });
 import AuthProvider from '../components/SessionProvider'
 import Nav from "../components/Nav";
 import { Toaster } from "react-hot-toast";
-import CustomHead from "@/components/CustomHead";
 
 
 export default function RootLayout({
@@ -15,12 +14,11 @@ export default function RootLayout({
   return (
     <AuthProvider>
       <html lang="en">
-        <CustomHead />
         <body className={`${inter.className} bg-white dark:bg-gray-900`}>
           <Nav />
           {children}
-          <Analytics />
           <Toaster />
+          <Analytics />
         </body>
       </html>
     </AuthProvider>

@@ -5,6 +5,7 @@ import HomeFooter from "@/components/HomeFooter";
 import HomeHero from "@/components/HomeHero";
 import Testimonials from "@/components/Testimonials";
 import useFetchSession from "@/components/hooks/UseFetchSession";
+import CustomHead from "@/components/CustomHead";
 import { redirect } from "next/navigation";
 import { useEffect } from "react";
 
@@ -25,6 +26,7 @@ export default function Home() {
   }, [session?.user.email]);
   return (
     <>
+      <CustomHead />
       <HomeHero />
       <Features />
       <Testimonials />
