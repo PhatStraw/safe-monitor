@@ -6,6 +6,12 @@ export default function CallToAction() {
       <h1 className="text-center text-4xl font-bold text-gray-800 dark:text-white md:text-5xl">
         Get Started now
       </h1>
+      <div className="flex align-base justify-center">
+        <h1 className="text-center text-4xl font-bold text-gray-800 dark:text-white md:text-5xl">
+          $10
+        </h1>
+        <h3 className="font-bold">/m</h3>
+      </div>
       <p className="text-center text-xl text-gray-600 dark:text-gray-300">
         Be part of millions people around the world using Safe Monitor
       </p>
