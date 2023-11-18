@@ -43,7 +43,7 @@ export default function Testimonials() {
         "https://www.gravatar.com/avatar/44444444444444444444444444444444?d=mp&f=y",
     },
     {
-      name: "Marcus",
+      name: "Seth",
       description: "Dad and Coach",
       testimonial:
         "This app isn't just a monitoring tool; it's a way for me to understand and connect with what my kids are interested in online.",
