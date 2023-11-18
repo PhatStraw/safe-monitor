@@ -21,7 +21,7 @@ export default function HomeHero() {
                 </span>
               </h1>
               <p className="mt-8 text-gray-700 dark:text-gray-300">
-                No more guessing games or feeling out of touch. Our newsletter
+                No more guessing games or feeling out of touch. Our weekly newsletter and app 
                 provides you with valuable insights and information, ensuring
                 youre aware of the videos and channels your child is engaging
                 with.
