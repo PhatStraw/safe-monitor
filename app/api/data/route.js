@@ -84,24 +84,7 @@ export async function POST(request) {
         );
       data.uploadedVideos = uploadedVideosResponse.data.items;
 
-      // const activities = await service.activities
-      //   .list({
-      //     part: "snippet,contentDetails",
-      //     mine: true,
-      //     maxResults: "10",
-      //     key: process.env.API_KEY,
-      //   })
-      //   .catch((err) =>
-      //     console.error("Error retrieving uploaded videos: " + err)
-      //   );
-      // data.activities = activities;
-      console.log(data);
       return data;
-      // Write data to file
-      // fs.writeFile(OUTPUT_PATH, JSON.stringify(data, null, 2), (err) => {
-      //   if (err) return console.error(err);
-      //   console.log('Data stored to', OUTPUT_PATH);
-      // });
     };
 
     const summary = async () => {
@@ -111,7 +94,7 @@ export async function POST(request) {
       // Extract the liked videos and subscriptions
       const likedVideos = data.likedVideos;
       const subscriptions = data.subscriptions;
-      console.log(119);
+
       // Prepare the prompt for the GPT-3 model
       let prompt = "Summarize the following YouTube content:\n\n";
 

@@ -9,7 +9,7 @@ export async function sendMail(data, email) {
       pass: process.env.NEXT_PUBLIC_EMAIL_PASS,
     },
   });
-  console.log("transport", transporter);
+ 
   await new Promise((resolve, reject) => {
     // verify connection configuration
     transporter.verify(function (error, success) {
@@ -76,7 +76,6 @@ export async function sendMail(data, email) {
   await new Promise((resolve, reject) => {
     transporter.sendMail(mailOptions, function (error, info) {
       if (error) {
-        console.log("trahefwef");
         console.log(error);
         reject(error);
       } else {

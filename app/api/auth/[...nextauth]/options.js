@@ -31,19 +31,9 @@ async function saveUser(user) {
 }
 
 export const options = {
-  debug: true,
-  events: {
-    signIn(message) {
-      console.log("signin message", message);
-    },
-    signOut(message) {
-      console.log("SIGNOUT====", message);
-    },
-  },
   providers: [
     GoogleProvider({
       profile(profile) {
-        console.log("Profile Google: ", profile);
 
         let userRole = "Google User";
         return {
@@ -74,7 +64,6 @@ export const options = {
           google_id: account.providerAccountId,
         });
   
-        console.log('Saved user:', savedUser);
       } catch (error) {
         console.error('Error in sign-in callback:', error);
         return Promise.reject(new Error('Failed to save user'));
@@ -83,9 +72,6 @@ export const options = {
       return Promise.resolve(true);
     },
     async jwt({ token, account, user }) {
-      //   console.log("Token:", token);
-      //   console.log("Account:", account);
-      //   console.log("User:", user);
       try {
         if (account) {
           token.accessToken = account.access_token;
@@ -102,9 +88,6 @@ export const options = {
       }
     },
     async session({ session, user, token }) {
-      //   console.log("Session:", session);
-      //   console.log("User:", user);
-      //   console.log("Token:", token);
       try {
         session.accessToken = token.accessToken;
         session.refreshToken = token.refreshToken;

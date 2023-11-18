@@ -62,7 +62,6 @@ async function fetchYoutubeData(auth) {
     })
     .catch((err) => console.error("Error retrieving liked videos: " + err));
   data.likedVideos = likedVideosResponse.data.items;
-console.log("========likedVideosResponse========",likedVideosResponse)
   // Fetch the user's subscriptions
   const subscriptionsResponse = await service.subscriptions
     .list({
@@ -73,7 +72,6 @@ console.log("========likedVideosResponse========",likedVideosResponse)
     })
     .catch((err) => console.error("Error retrieving subscriptions: " + err));
   data.subscriptions = subscriptionsResponse.data.items;
-  console.log("========subscriptionsResponse========",subscriptionsResponse)
 
   // For each subscription, fetch the last uploaded video
   for (let i = 0; i < data.subscriptions.length; i++) {
@@ -84,7 +82,6 @@ console.log("========likedVideosResponse========",likedVideosResponse)
       part: "contentDetails",
       id: channelId,
     });
-    console.log("========channelResponse========",channelResponse)
 
     const uploadsId =
       channelResponse.data.items[0].contentDetails.relatedPlaylists.uploads;
@@ -96,7 +93,6 @@ console.log("========likedVideosResponse========",likedVideosResponse)
       playlistId: uploadsId,
       maxResults: 1,
     });
-    console.log("========likedVideosResponse========",likedVideosResponse)
 
     data.subscriptions[i].lastUploadedVideo = uploadsResponse.data.items[0];
   }
@@ -200,18 +196,15 @@ async function summarizeContent(data, email) {
 export async function POST(request) {
   try {
     const { secondary_row, email } = await request.json();
-    console.log("=========secondary_row=========", secondary_row);
 
     const youtubeData = await fetchYoutubeData({
       access_token: secondary_row.access_token,
       refresh_token: secondary_row.refresh_token,
     });
-    console.log("=========youtubeData=========", youtubeData);
     const summarizedData = await summarizeContent(
       youtubeData,
       email
     );
-    console.log("=========summarizedData=========", summarizedData);
 
     if (summarizedData) {
       summarizedData.timestamp = new Date().toISOString();

@@ -29,7 +29,7 @@ export default function Page() {
   });
   const [newAccount, setNewAccount] = useState();
   const loading = status === "loading";
-  console.log(activeUser);
+
   useEffect(() => {
     const createSecondaryFromCode = async (code) => {
       // Create a loading toast
@@ -55,7 +55,7 @@ export default function Page() {
         // Dismiss the loading toast and show a success toast
         toast.dismiss(toastId);
         toast.success("Successfully added account!");
-console.log("DATASECONDARY", data.data.secondary_row)
+
         //upload Youtube Data
         const uploadDataResponse = await fetch(
           `${process.env.NEXT_PUBLIC_GOOGLE_REDIRECT_URI}/api/fetch_youtube`,
@@ -70,7 +70,6 @@ console.log("DATASECONDARY", data.data.secondary_row)
             }),
           }
         );
-        console.log("uploadedDataRes", await uploadDataResponse.json());
       } catch (error) {
         console.error("Error exchanging code for tokens:", error);
 
@@ -96,7 +95,6 @@ console.log("DATASECONDARY", data.data.secondary_row)
   };
 
   const handleBilling = async () => {
-    console.log("========ID=======", activeUser?.stripe_id);
     const response = await fetch("/api/portal", {
       method: "POST",
       headers: {

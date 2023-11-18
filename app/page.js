@@ -15,7 +15,7 @@ export default function Home() {
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
     const code = urlParams;
-    console.log(code);
+    
     if (
       code.size > 0 &&
       session?.user.email &&

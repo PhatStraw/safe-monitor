@@ -17,9 +17,7 @@ async function fetchYoutubeData(auth) {
 
   oauth2Client.setCredentials({
     access_token: auth.access_token,
-    refresh_token: auth.refresh_token,
-    // Optional, provide an expiry_date (milliseconds since the Unix Epoch)
-    // expiry_date: (new Date()).getTime() + (1000 * 60 * 60 * 24 * 7)
+    refresh_token: auth.refresh_token
   });
 
   const service = google.youtube("v3");
@@ -66,24 +64,6 @@ async function fetchYoutubeData(auth) {
       );
     data.subscriptions[i].lastUploadedVideo = uploadsResponse.data.items[0];
   }
-
-  // Get uploaded videos
-  // const uploadedVideosResponse = await service.search.list({
-  //   auth: oauth2Client,
-  //   part: "snippet",
-  //   forMine: true,
-  //   type: 'video',
-  //   maxResults: 50,
-  // }).catch(err => console.error("Error retrieving uploaded videos: " + err));
-  // data.uploadedVideos = uploadedVideosResponse.data.items;
-
-  // const activities = await service.activities.list({
-  //   'part': 'snippet,contentDetails',
-  //   'mine': true,
-  //   'maxResults': '10',
-  //   'key': process.env.API_KEY
-  // }).catch(err => console.error("Error retrieving uploaded videos: " + err));
-  // console.log(activities)
 
   // Write data to file
   return data;

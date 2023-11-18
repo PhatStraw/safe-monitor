@@ -132,39 +132,37 @@ export async function POST(request) {
   try {
     // Parse the request body as JSON and extract the code and email
     const { code, email } = await request.json();
-    console.log("=========code, email============", code, email);
-
+   
     if (!code || !email) {
       throw new Error("Missing required parameters: code or email");
     }
 
     // Fetch the token using the code
     const data = await fetchToken(code);
-    console.log("=========data============", data);
-
+    
     if (!data.access_token) {
       throw new Error("Failed to fetch token");
     }
 
     // Fetch the user info using the access token
     const secondaryInfo = await fetchUserInfo(data.access_token);
-    console.log("=========SecondaryInfo============", secondaryInfo);
+    
     if (!secondaryInfo) {
       throw new Error("Failed to fetch user info");
     }
 
     // Find the user by email and get their ID
     const primary_id = await findUserByEmail(email);
-    console.log("=========primary_id============", primary_id);
-
+    
+    
     if (!primary_id) {
       throw new Error("Failed to find user by email");
     }
 
     // Save the secondary account to the database
     const result = await saveSecondaryAccount(primary_id, secondaryInfo, data);
-    console.log("=========result============", result);
-
+    
+    
     // If the account already exists, return an error response
     if (result.status === 409) {
       throw new Error(result.message);
