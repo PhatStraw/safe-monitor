@@ -29,8 +29,8 @@ export default function Home() {
       <CustomHead />
       <HomeHero />
       <Features />
-      <Testimonials />
       <CallToAction />
+      <Testimonials />
       <HomeFooter />
     </>
   );
