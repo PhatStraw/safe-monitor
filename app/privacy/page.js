@@ -117,7 +117,7 @@ export default function Page() {
       <h3>Contact Information</h3>
       <p>
         For any questions about this privacy policy or our privacy practices,
-        please contact us at kevindsimsjr@gmail.com.
+        please contact us at help.safemonitor@gmail.com.
       </p>
     </div>
   );

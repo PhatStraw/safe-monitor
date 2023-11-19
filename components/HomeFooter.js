@@ -29,7 +29,7 @@ export default function HomeFooter() {
             <div className="flex w-full justify-center space-x-12 text-gray-600 dark:text-gray-300 sm:w-7/12 md:justify-start">
               <ul className="list-inside list-disc space-y-8">
                 <FooterLink href="/">Home</FooterLink>
-                <FooterLink href="mailto:kevindsimsjr@gmail.com">Contact</FooterLink>
+                <FooterLink href="mailto:help.safemonitor@gmail.com">Contact</FooterLink>
               </ul>
 
               <ul role="list" className="space-y-8">
@@ -55,7 +55,7 @@ export default function HomeFooter() {
 
               <span className="block text-gray-500 dark:text-gray-400">
                 Need help?{" "}
-                <a href="mailto:kevindsimsjr@gmail.com" className="font-semibold text-gray-600 dark:text-white">
+                <a href="mailto:help.safemonitor@gmail.com" className="font-semibold text-gray-600 dark:text-white">
                   {" "}
                   Contact Us
                 </a>

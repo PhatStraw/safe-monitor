@@ -40,7 +40,7 @@ export default function Return() {
         <p className="w-full text-center">
           We appreciate your business! A confirmation email will be sent to{" "}
           {customerEmail}. If you have any questions, please email{" "}
-          <a href="mailto:kevindsimsjr@gmail.com">kevindsimsjr@gmail.com</a>.
+          <a href="mailto:help.safemonitor@gmail.com">help.safemonitor@gmail.com</a>.
         </p>
       </section>
     );
