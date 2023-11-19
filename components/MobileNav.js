@@ -1,5 +1,4 @@
 "use client";
-import Nav from "../components/Nav";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
@@ -10,7 +9,6 @@ import { usePathname } from "next/navigation";
  */
 export default function MobileNav() {
   const pathname = usePathname();
-  const [isToggled, setIsToggled] = useState(false);
   const [session, setSession] = useState(null);
   const links = [
     {

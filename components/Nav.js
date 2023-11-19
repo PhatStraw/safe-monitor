@@ -3,6 +3,22 @@ import Link from "next/link";
 import { useState } from "react";
 import useFetchSession from "./hooks/UseFetchSession";
 
+const NavLink = ({ href, children, newFeature }) => (
+  <li>
+    <Link
+      href={href}
+      className="flex gap-2 font-semibold text-gray-700 transition hover:text-primary dark:text-white dark:hover:text-white md:px-4"
+    >
+      <span>{children}</span>
+      {newFeature && (
+        <span className="flex rounded-full bg-primary/20 px-1.5 py-0.5 text-xs tracking-wider text-purple-700 dark:bg-white/10 dark:text-orange-300">
+          new
+        </span>
+      )}
+    </Link>
+  </li>
+);
+
 const Nav = () => {
   const [isToggled, setIsToggled] = useState(false);
   const session = useFetchSession();
@@ -87,26 +103,10 @@ const Nav = () => {
                     setIsToggled(!isToggled);
                   }}
                 >
-                  <li>
-                    <Link
-                      href="/privacy"
-                      className="flex gap-2 font-semibold text-gray-700 transition hover:text-primary dark:text-white dark:hover:text-white md:px-4"
-                    >
-                      <span>Privacy Policy</span>
-                    </Link>
-                  </li>
-                  <li>
-                    <Link
-                      href="/dashboard"
-                      className="flex gap-2 font-semibold text-gray-700 transition hover:text-primary dark:text-white dark:hover:text-white md:px-4"
-                    >
-                      <span>App</span>
-                      <span className="flex rounded-full bg-primary/20 px-1.5 py-0.5 text-xs tracking-wider text-purple-700 dark:bg-white/10 dark:text-orange-300">
-                        {" "}
-                        new
-                      </span>
-                    </Link>
-                  </li>
+                  <NavLink href="/privacy">Privacy Policy</NavLink>
+                  <NavLink href="/dashboard" newFeature>
+                    App
+                  </NavLink>
                 </ul>
               </div>
 
