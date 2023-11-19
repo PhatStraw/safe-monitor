@@ -2,6 +2,8 @@
 import Link from "next/link";
 import { useState } from "react";
 import useFetchSession from "./hooks/UseFetchSession";
+import Logo from "../public/safelogo.png"
+import Image from "next/image";
 
 const NavLink = ({ href, children, newFeature }) => (
   <li>
@@ -35,10 +37,9 @@ const Nav = () => {
                 className="flex items-center space-x-2"
               >
                 <div aria-hidden="true" className="flex space-x-1">
-                  <div className="h-4 w-4 rounded-full bg-gray-900 dark:bg-white"></div>
-                  <div className="h-6 w-2 bg-primary"></div>
+                  <Image priority src={Logo} height={60} width={60} alt="logo"/>
                 </div>
-                <span className="text-2xl font-bold text-gray-900 dark:text-white">
+                <span className="text-2xl hidden md:block font-bold text-gray-900 dark:text-white">
                   Safe Monitor
                 </span>
               </Link>
@@ -47,7 +48,7 @@ const Nav = () => {
                 <button
                   aria-label="humburger"
                   id="hamburger"
-                  className={`relative -mr-6 p-6 ${isToggled ? "toggled" : ""}`}
+                  className={`relative mt-4 -mr-6 p-6 ${isToggled ? "toggled" : ""}`}
                   onClick={() => setIsToggled(!isToggled)}
                   style={
                     isToggled
